@@ -13,7 +13,7 @@
 
 # apriori_output.py
 # Copyright (C) 2014-2018 Fracpete (pythonwekawrapper at gmail dot com)
-
+# test comment for github
 import os
 import sys
 import traceback
