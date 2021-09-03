@@ -24,7 +24,13 @@ from weka.associations import Associator
 import javabridge
 from javabridge import JWrapper
 import re
+import statistics
 
+def find_variance(conf_collection):
+    confidences_list = []
+    for i in conf_collection:
+        confidences_list.append(float(str(i[0]).replace("(","").replace(")","")))
+    return statistics.mean(confidences_list)
 
 def main(args):
 
@@ -35,8 +41,8 @@ def main(args):
     """
     #maintain a dictionary to keep track of confidences:
     conf_dict = dict()
-    conf_dict["Symptoms->Diagnosis"] = [0]
-    conf_dict["Diagnosis->Symptoms"] = [0]
+    conf_dict["Symptoms->Diagnosis"] = []
+    conf_dict["Diagnosis->Symptoms"] = []
 
     # load a dataset
     if len(args) <= 1:
@@ -53,7 +59,6 @@ def main(args):
     apriori.build_associations(data)
     apriori.build_associations(data)
     # print(str(apriori))
-    # print(type(apriori))
 
     # iterate association rules (low-level)
     helper.print_info("Rules (low-level)")
@@ -64,12 +69,17 @@ def main(args):
         rule = JWrapper(r)
         print(str(i+1) + ". " + str(rule))
         if ("Symptoms" in str(rule).split("==>")[0]):
-
+            #extract confidence value from the rule string using regualr expression
             p = re.compile('<conf:(.*)>')
             conf_dict["Symptoms->Diagnosis"].append(p.findall(str(rule)))
         elif("Diagnosis" in str(rule).split("==>")[0]):
             conf_dict["Diagnosis->Symptoms"].append(p.findall(str(rule)))
-    print(conf_dict)
+
+    print("Mean of Diagnosis -> Symptoms")
+    print(find_variance(conf_dict["Diagnosis->Symptoms"]))
+    print("\n")
+    print("Mean of Symptoms -> Diagosis")
+    print(find_variance(conf_dict["Symptoms->Diagnosis"]))
 
 if __name__ == "__main__":
     try:
