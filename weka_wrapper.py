@@ -14,6 +14,7 @@
 # apriori_output.py
 # Copyright (C) 2014-2018 Fracpete (pythonwekawrapper at gmail dot com)
 # test comment for github
+import itertools
 import os
 import sys
 import traceback
@@ -26,11 +27,29 @@ from javabridge import JWrapper
 import re
 import statistics
 
-def find_variance(conf_collection):
+def find_mean(conf_collection):
     confidences_list = []
     for i in conf_collection:
         confidences_list.append(float(str(i[0]).replace("(","").replace(")","")))
     return statistics.mean(confidences_list)
+
+def read_file_each_chunk(stream, separator):
+  buffer = ''
+  while True:  # until EOF
+    chunk = stream.read(4096)  # I propose 4096 or so
+    if not chunk:  # EOF?
+      yield buffer
+      break
+    buffer += chunk
+    while True:  # until no separator is found
+      try:
+        part, buffer = buffer.split(separator, 1)
+      except ValueError:
+        break
+      else:
+        yield part
+
+
 
 def main(args):
 
@@ -39,14 +58,10 @@ def main(args):
     :param args: the commandline arguments
     :type args: list
     """
-    #maintain a dictionary to keep track of confidences:
-    conf_dict = dict()
-    conf_dict["Symptoms->Diagnosis"] = []
-    conf_dict["Diagnosis->Symptoms"] = []
 
     # load a dataset
     if len(args) <= 1:
-        data_file = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/claims_sym_diag_preprocessed.arff"
+        data_file = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond.arff"
     else:
         data_file = args[1]
     helper.print_info("Loading dataset: " + data_file)
@@ -54,8 +69,38 @@ def main(args):
     data = loader.load_file(data_file)
     data.class_is_last()
 
+    #extracting attributes:
+    attributes = []
+    with open(data_file) as myFile:
+        for chunk in read_file_each_chunk(myFile, separator='@data'):
+            attr_contents = chunk  # not holding in memory, but printing chunk by chunk
+            break
+    temp_contents = attr_contents.split("@attribute")
+    for i in range(1, len(temp_contents)):
+        attributes.append(temp_contents[i].split("{")[0].strip())
+
+    #finding combinatons of different attributes
+    attributes_pairs = (list(itertools.combinations(attributes, 2)))
+
+
+    #initialize a dictionary to keep track of confidences:
+    conf_dict = {
+        "two-only": dict(),
+        "three-only": dict(),
+        "two-and-three": dict()
+    }
+    for i in attributes_pairs:
+        rule_forward = i[0] + " -> " + i[1]
+        rule_backward = i[1] + " -> " + i[0]
+        conf_dict["two-only"][rule_forward] = []
+        conf_dict["two-only"][rule_backward] = []
+        conf_dict["three-only"][rule_forward] = []
+        conf_dict["three-only"][rule_backward] = []
+        conf_dict["two-and-three"][rule_forward] = []
+        conf_dict["two-and-three"][rule_backward] = []
+
     # build Apriori, using last attribute as class attribute
-    apriori = Associator(classname="weka.associations.Apriori", options=["-M", "0.01", "-c", "-1", "-C", "0.01", "-N", "1000"])
+    apriori = Associator(classname="weka.associations.Apriori", options=["-M", "0.1", "-c", "-1", "-C", "0.1", "-N", "1000"])
     apriori.build_associations(data)
     apriori.build_associations(data)
     # print(str(apriori))
@@ -64,22 +109,75 @@ def main(args):
     helper.print_info("Rules (low-level)")
     # make the underlying rules list object iterable in Python
     rules = javabridge.iterate_collection(apriori.jwrapper.getAssociationRules().getRules().o)
+
+
     for i, r in enumerate(rules):
         # wrap the Java object to make its methods accessible
         rule = JWrapper(r)
-        print(str(i+1) + ". " + str(rule))
-        if ("Symptoms" in str(rule).split("==>")[0]):
-            #extract confidence value from the rule string using regualr expression
-            p = re.compile('<conf:(.*)>')
-            conf_dict["Symptoms->Diagnosis"].append(p.findall(str(rule)))
-        elif("Diagnosis" in str(rule).split("==>")[0]):
-            conf_dict["Diagnosis->Symptoms"].append(p.findall(str(rule)))
+        # print(str(i+1) + ". " + str(rule))
 
-    print("Mean of Diagnosis -> Symptoms")
-    print(find_variance(conf_dict["Diagnosis->Symptoms"]))
-    print("\n")
-    print("Mean of Symptoms -> Diagosis")
-    print(find_variance(conf_dict["Symptoms->Diagnosis"]))
+        for i in attributes_pairs:
+            attr_1 = i[0]
+            attr_2 = i[1]
+            rule_forward = attr_1 + " -> " + attr_2
+            rule_backward = attr_2 + " -> " + attr_1
+            # print("=======================================")
+            attr_3 = [x for x in attributes if x not in list(i)][0]
+
+
+            #Considering all 3 attributes
+            if(i[0] in str(rule).split("==>")[0]):
+                p = re.compile('<conf:(.*)>') # regular expression to find confidence by finding string "<conf: ***>"
+                conf_dict["two-and-three"][rule_forward].append(p.findall(str(rule)))
+            elif (i[1] in str(rule).split("==>")[0]):
+                p = re.compile('<conf:(.*)>')
+                conf_dict["two-and-three"][rule_backward].append(p.findall(str(rule)))
+
+            # Considering all only 2 attributes
+            if attr_3 not in str(rule):
+                if (i[0] in str(rule).split("==>")[0]):
+                    p = re.compile(
+                        '<conf:(.*)>')  # regular expression to find confidence by finding string "<conf: ***>"
+                    conf_dict["two-only"][rule_forward].append(p.findall(str(rule)))
+                elif (i[1] in str(rule).split("==>")[0]):
+                    p = re.compile('<conf:(.*)>')
+                    conf_dict["two-only"][rule_backward].append(p.findall(str(rule)))
+
+            # Considering all only 3 attributes
+            if attr_3 in str(rule):
+                if (i[0] in str(rule).split("==>")[0]):
+                    p = re.compile(
+                        '<conf:(.*)>')  # regular expression to find confidence by finding string "<conf: ***>"
+                    conf_dict["three-only"][rule_forward].append(p.findall(str(rule)))
+                elif (i[1] in str(rule).split("==>")[0]):
+                    p = re.compile('<conf:(.*)>')
+                    conf_dict["three-only"][rule_backward].append(p.findall(str(rule)))
+    for i in attributes_pairs:
+        attr_1 = i[0]
+        attr_2 = i[1]
+        rule_forward = attr_1 + " -> " + attr_2
+        print("Relation between " + attr_1 + " and " +  attr_2 + ":")
+        print("\n")
+        print("Mean of (three-only)" + rule_forward)
+        print(find_mean(conf_dict["three-only"][rule_forward]))
+        rule_backward = attr_2 + " -> " + attr_1
+        print("Mean of (three-only)" + rule_backward)
+        print(find_mean(conf_dict["three-only"][rule_backward]))
+        print("\n")
+
+        print("Mean of (two-only)" + rule_forward)
+        print(find_mean(conf_dict["two-only"][rule_forward]))
+        rule_backward = attr_2 + " -> " + attr_1
+        print("Mean of (two-only)" + rule_backward)
+        print(find_mean(conf_dict["two-only"][rule_backward]))
+        print("\n")
+
+        print("Mean of (two-and-three)" + rule_forward)
+        print(find_mean(conf_dict["two-and-three"][rule_forward]))
+        rule_backward = attr_2 + " -> " + attr_1
+        print("Mean of (two-and-three)" + rule_backward)
+        print(find_mean(conf_dict["two-and-three"][rule_backward]))
+        print("============================================================================")
 
 if __name__ == "__main__":
     try:
