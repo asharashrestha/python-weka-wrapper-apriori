@@ -114,7 +114,7 @@ def main(args):
     for i, r in enumerate(rules):
         # wrap the Java object to make its methods accessible
         rule = JWrapper(r)
-        # print(str(i+1) + ". " + str(rule))
+        print(str(i+1) + ". " + str(rule))
 
         for i in attributes_pairs:
             attr_1 = i[0]
@@ -156,28 +156,19 @@ def main(args):
         attr_1 = i[0]
         attr_2 = i[1]
         rule_forward = attr_1 + " -> " + attr_2
-        print("Relation between " + attr_1 + " and " +  attr_2 + ":")
-        print("\n")
-        print("Mean of (three-only)" + rule_forward)
-        print(find_mean(conf_dict["three-only"][rule_forward]))
         rule_backward = attr_2 + " -> " + attr_1
-        print("Mean of (three-only)" + rule_backward)
-        print(find_mean(conf_dict["three-only"][rule_backward]))
-        print("\n")
 
-        print("Mean of (two-only)" + rule_forward)
-        print(find_mean(conf_dict["two-only"][rule_forward]))
-        rule_backward = attr_2 + " -> " + attr_1
-        print("Mean of (two-only)" + rule_backward)
-        print(find_mean(conf_dict["two-only"][rule_backward]))
-        print("\n")
+        print("+---------------------------------------------------------------------------  ")
+        print("| Relation between " + attr_1 + " and " + attr_2 + ":")
+        print("+---------------------------------------------------------------------------  ")
 
-        print("Mean of (two-and-three)" + rule_forward)
-        print(find_mean(conf_dict["two-and-three"][rule_forward]))
-        rule_backward = attr_2 + " -> " + attr_1
-        print("Mean of (two-and-three)" + rule_backward)
-        print(find_mean(conf_dict["two-and-three"][rule_backward]))
-        print("============================================================================")
+        print("| Mean of (three-only)" + rule_forward + "==>"+str(find_mean(conf_dict["three-only"][rule_forward])))
+        print("| Mean of (three-only)" + rule_backward +"==>"+str(find_mean(conf_dict["three-only"][rule_backward])))
+        print("| Mean of (two-only)" + rule_forward+"==>"+str(find_mean(conf_dict["two-only"][rule_forward])))
+        print("| Mean of (two-only)" + rule_backward + "==>" + str(find_mean(conf_dict["two-only"][rule_backward])))
+        print("| Mean of (two-and-three)" + rule_forward + "==>"+str(find_mean(conf_dict["two-and-three"][rule_forward])))
+        print("Mean of (two-and-three)" + rule_backward+"==>"+str(find_mean(conf_dict["two-and-three"][rule_backward])))
+        print("+--------------------------------------------------------------------------- ")
 
 if __name__ == "__main__":
     try:
