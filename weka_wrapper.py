@@ -14,8 +14,8 @@
 # apriori_output.py
 # Copyright (C) 2014-2018 Fracpete (pythonwekawrapper at gmail dot com)
 # test comment for github
-import itertools
-import os
+import pandas as pd
+import numpy as np
 import sys
 import traceback
 import weka.core.jvm as jvm
@@ -26,12 +26,38 @@ import javabridge
 from javabridge import JWrapper
 import re
 import statistics
+import itertools
+import csv
+import pprint
+
+
+csv_file_path ="/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond_excluded_no-treatment_non-resp.csv"
+df = pd.read_csv(csv_file_path,skiprows=0)
+attribute_list = list(df.columns)
+print(attribute_list)
 
 def find_mean(conf_collection):
     confidences_list = []
     for i in conf_collection:
         confidences_list.append(float(str(i[0]).replace("(","").replace(")","")))
     return statistics.mean(confidences_list)
+
+
+# takes list of uniques values of single variable and returns pair of values of given length from all pair of variables
+def find_pairs_of_variables(comb_len, list_of_lists):
+    permutations_of_list = []
+    element_pairs = []
+
+    for L in range(0, len(list_of_lists) + 1):
+        for subset in itertools.permutations(list_of_lists, L):
+            if len(subset)==comb_len:
+                permutations_of_list.append(subset)
+    # print(list_of_combinations)
+    for i in permutations_of_list:
+        for j in (list(itertools.product(i[0], i[1]))):
+            element_pairs.append(j)
+    print(element_pairs)
+
 
 def read_file_each_chunk(stream, separator):
   buffer = ''
@@ -61,7 +87,13 @@ def main(args):
 
     # load a dataset
     if len(args) <= 1:
-        data_file = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond.arff"
+        # data_file = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond.arff"
+        data_file = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond_excluded_no-treatment_non-resp.arff"
+
+        data_value = np.asarray(data_file[0])
+        attributes = data_file[0]
+        print(data_value)
+        print(attributes)
     else:
         data_file = args[1]
     helper.print_info("Loading dataset: " + data_file)
@@ -69,15 +101,22 @@ def main(args):
     data = loader.load_file(data_file)
     data.class_is_last()
 
-    #extracting attributes:
-    attributes = []
-    with open(data_file) as myFile:
-        for chunk in read_file_each_chunk(myFile, separator='@data'):
-            attr_contents = chunk  # not holding in memory, but printing chunk by chunk
-            break
-    temp_contents = attr_contents.split("@attribute")
-    for i in range(1, len(temp_contents)):
-        attributes.append(temp_contents[i].split("{")[0].strip())
+    print("==================================================")
+
+    #creating dictionary number of lists equal to number of attributes
+    attribute_dictionary = dict()
+    for attr in attributes:
+        attribute_dictionary[attr] = []
+
+    for attr in attribute_list:
+        if attr != "dtype":
+            attribute_dictionary[attr] = [attr + "="+df[attr].unique()]
+
+    p=pprint.PrettyPrinter(indent=4)
+    p.pprint(attribute_dictionary)
+    print(attribute_dictionary)
+    print("==================================================")
+
 
     #finding combinatons of different attributes
     attributes_pairs = (list(itertools.combinations(attributes, 2)))
@@ -111,10 +150,11 @@ def main(args):
     rules = javabridge.iterate_collection(apriori.jwrapper.getAssociationRules().getRules().o)
 
 
+
     for i, r in enumerate(rules):
         # wrap the Java object to make its methods accessible
         rule = JWrapper(r)
-        print(str(i+1) + ". " + str(rule))
+        # print(str(i+1) + ". " + str(rule))
 
         for i in attributes_pairs:
             attr_1 = i[0]
@@ -158,16 +198,16 @@ def main(args):
         rule_forward = attr_1 + " -> " + attr_2
         rule_backward = attr_2 + " -> " + attr_1
 
-        print("+---------------------------------------------------------------------------  ")
-        print("| Relation between " + attr_1 + " and " + attr_2 + ":")
-        print("+---------------------------------------------------------------------------  ")
-
-        print("| Mean of (three-only)" + rule_forward + "==>"+str(find_mean(conf_dict["three-only"][rule_forward])))
-        print("| Mean of (three-only)" + rule_backward +"==>"+str(find_mean(conf_dict["three-only"][rule_backward])))
-        print("| Mean of (two-only)" + rule_forward+"==>"+str(find_mean(conf_dict["two-only"][rule_forward])))
-        print("| Mean of (two-only)" + rule_backward + "==>" + str(find_mean(conf_dict["two-only"][rule_backward])))
-        print("| Mean of (two-and-three)" + rule_forward + "==>"+str(find_mean(conf_dict["two-and-three"][rule_forward])))
-        print("Mean of (two-and-three)" + rule_backward+"==>"+str(find_mean(conf_dict["two-and-three"][rule_backward])))
+        # print("+---------------------------------------------------------------------------  ")
+        # print("| Relation between " + attr_1 + " and " + attr_2 + ":")
+        # print("+---------------------------------------------------------------------------  ")
+        #
+        # print("| Mean of (three-only)" + rule_forward + "==>"+str(find_mean(conf_dict["three-only"][rule_forward])))
+        # print("| Mean of (three-only)" + rule_backward +"==>"+str(find_mean(conf_dict["three-only"][rule_backward])))
+        # print("| Mean of (two-only)" + rule_forward+"==>"+str(find_mean(conf_dict["two-only"][rule_forward])))
+        # print("| Mean of (two-only)" + rule_backward + "==>" + str(find_mean(conf_dict["two-only"][rule_backward])))
+        # print("| Mean of (two-and-three)" + rule_forward + "==>"+str(find_mean(conf_dict["two-and-three"][rule_forward])))
+        # print("Mean of (two-and-three)" + rule_backward+"==>"+str(find_mean(conf_dict["two-and-three"][rule_backward])))
         print("+--------------------------------------------------------------------------- ")
 
 if __name__ == "__main__":
