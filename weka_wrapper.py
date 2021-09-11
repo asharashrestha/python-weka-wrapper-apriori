@@ -56,7 +56,7 @@ def find_pairs_of_variables(comb_len, list_of_lists):
     for i in permutations_of_list:
         for j in (list(itertools.product(i[0], i[1]))):
             element_pairs.append(j)
-    print(element_pairs)
+    return element_pairs
 
 
 def read_file_each_chunk(stream, separator):
@@ -92,17 +92,13 @@ def main(args):
 
         data_value = np.asarray(data_file[0])
         attributes = data_file[0]
-        print(data_value)
-        print(attributes)
-    else:
-        data_file = args[1]
     helper.print_info("Loading dataset: " + data_file)
     loader = Loader("weka.core.converters.ArffLoader")
     data = loader.load_file(data_file)
     data.class_is_last()
 
     print("==================================================")
-
+    list_of_attributes = []
     #creating dictionary number of lists equal to number of attributes
     attribute_dictionary = dict()
     for attr in attributes:
@@ -110,17 +106,13 @@ def main(args):
 
     for attr in attribute_list:
         if attr != "dtype":
-            attribute_dictionary[attr] = [attr + "="+df[attr].unique()]
+            attribute_dictionary[attr] = attr + "="+df[attr].unique()
 
-    p=pprint.PrettyPrinter(indent=4)
-    p.pprint(attribute_dictionary)
-    print(attribute_dictionary)
-    print("==================================================")
+    for attribute in attribute_dictionary.keys():
+        if len(attribute_dictionary[attribute])!=0:
+            list_of_attributes.append(attribute_dictionary[attribute])
 
-
-    #finding combinatons of different attributes
-    attributes_pairs = (list(itertools.combinations(attributes, 2)))
-
+    attributes_pairs = find_pairs_of_variables(2, list_of_attributes) #finding all permutations of attrbutes with length 2.
 
     #initialize a dictionary to keep track of confidences:
     conf_dict = {
@@ -145,70 +137,35 @@ def main(args):
     # print(str(apriori))
 
     # iterate association rules (low-level)
-    helper.print_info("Rules (low-level)")
+    helper.print_info("Rules list")
     # make the underlying rules list object iterable in Python
     rules = javabridge.iterate_collection(apriori.jwrapper.getAssociationRules().getRules().o)
 
-
+    list_of_rules = []
 
     for i, r in enumerate(rules):
         # wrap the Java object to make its methods accessible
         rule = JWrapper(r)
-        # print(str(i+1) + ". " + str(rule))
+        list_of_rules.append(str(rule))
 
-        for i in attributes_pairs:
-            attr_1 = i[0]
-            attr_2 = i[1]
-            rule_forward = attr_1 + " -> " + attr_2
-            rule_backward = attr_2 + " -> " + attr_1
-            # print("=======================================")
-            attr_3 = [x for x in attributes if x not in list(i)][0]
+    print("attributes_pairs")
+    print(attributes_pairs[34])
+    print(attributes_pairs[34][0])
+    for ap in attributes_pairs:
+        for r2 in list_of_rules:#r2 represents rules with 2 variables
+            attr_1 = ap[0]
+            attr_2 = ap[1]
+            if "[" + attr_1+ "]" in r2.split("==>")[0] and "[" + attr_2 + "]" in r2.split("==>")[1]:
+                print(r2)
+                for r3 in list_of_rules:#r3 represents rules with 3 variables:
+                    if "[" + attr_1 + ", " + attr_2 + "]" in  str(r3).split("==>")[0] or "[" + attr_2 + ", " + attr_1 + "]" in  str(r3).split("==>")[0]:
+                        print(r2)
+                        print(r3)
+                        print("****************************")
+                        print("\n")
 
 
-            #Considering all 3 attributes
-            if(i[0] in str(rule).split("==>")[0]):
-                p = re.compile('<conf:(.*)>') # regular expression to find confidence by finding string "<conf: ***>"
-                conf_dict["two-and-three"][rule_forward].append(p.findall(str(rule)))
-            elif (i[1] in str(rule).split("==>")[0]):
-                p = re.compile('<conf:(.*)>')
-                conf_dict["two-and-three"][rule_backward].append(p.findall(str(rule)))
 
-            # Considering all only 2 attributes
-            if attr_3 not in str(rule):
-                if (i[0] in str(rule).split("==>")[0]):
-                    p = re.compile(
-                        '<conf:(.*)>')  # regular expression to find confidence by finding string "<conf: ***>"
-                    conf_dict["two-only"][rule_forward].append(p.findall(str(rule)))
-                elif (i[1] in str(rule).split("==>")[0]):
-                    p = re.compile('<conf:(.*)>')
-                    conf_dict["two-only"][rule_backward].append(p.findall(str(rule)))
-
-            # Considering all only 3 attributes
-            if attr_3 in str(rule):
-                if (i[0] in str(rule).split("==>")[0]):
-                    p = re.compile(
-                        '<conf:(.*)>')  # regular expression to find confidence by finding string "<conf: ***>"
-                    conf_dict["three-only"][rule_forward].append(p.findall(str(rule)))
-                elif (i[1] in str(rule).split("==>")[0]):
-                    p = re.compile('<conf:(.*)>')
-                    conf_dict["three-only"][rule_backward].append(p.findall(str(rule)))
-    for i in attributes_pairs:
-        attr_1 = i[0]
-        attr_2 = i[1]
-        rule_forward = attr_1 + " -> " + attr_2
-        rule_backward = attr_2 + " -> " + attr_1
-
-        # print("+---------------------------------------------------------------------------  ")
-        # print("| Relation between " + attr_1 + " and " + attr_2 + ":")
-        # print("+---------------------------------------------------------------------------  ")
-        #
-        # print("| Mean of (three-only)" + rule_forward + "==>"+str(find_mean(conf_dict["three-only"][rule_forward])))
-        # print("| Mean of (three-only)" + rule_backward +"==>"+str(find_mean(conf_dict["three-only"][rule_backward])))
-        # print("| Mean of (two-only)" + rule_forward+"==>"+str(find_mean(conf_dict["two-only"][rule_forward])))
-        # print("| Mean of (two-only)" + rule_backward + "==>" + str(find_mean(conf_dict["two-only"][rule_backward])))
-        # print("| Mean of (two-and-three)" + rule_forward + "==>"+str(find_mean(conf_dict["two-and-three"][rule_forward])))
-        # print("Mean of (two-and-three)" + rule_backward+"==>"+str(find_mean(conf_dict["two-and-three"][rule_backward])))
-        print("+--------------------------------------------------------------------------- ")
 
 if __name__ == "__main__":
     try:
