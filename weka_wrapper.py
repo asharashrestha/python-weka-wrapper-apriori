@@ -27,11 +27,14 @@ from javabridge import JWrapper
 import re
 import statistics
 import itertools
+from treelib import Node, Tree
 import csv
 import pprint
 
 
-csv_file_path ="/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond_excluded_no-treatment_non-resp.csv"
+# csv_file_path ="/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond_excluded_no-treatment_non-resp.csv"
+csv_file_path ="/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/preprocessed_4_attr.csv"
+
 df = pd.read_csv(csv_file_path,skiprows=0)
 attribute_list = list(df.columns)
 print(attribute_list)
@@ -90,6 +93,9 @@ def main(args):
         # data_file = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond.arff"
         data_file = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/processed_claims_3_cond_excluded_no-treatment_non-resp.arff"
 
+        data_file = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/preprocessed_4_attr.arff"
+
+
         data_value = np.asarray(data_file[0])
         attributes = data_file[0]
     helper.print_info("Loading dataset: " + data_file)
@@ -112,23 +118,7 @@ def main(args):
         if len(attribute_dictionary[attribute])!=0:
             list_of_attributes.append(attribute_dictionary[attribute])
 
-    attributes_pairs = find_pairs_of_variables(2, list_of_attributes) #finding all permutations of attrbutes with length 2.
-
-    #initialize a dictionary to keep track of confidences:
-    conf_dict = {
-        "two-only": dict(),
-        "three-only": dict(),
-        "two-and-three": dict()
-    }
-    for i in attributes_pairs:
-        rule_forward = i[0] + " -> " + i[1]
-        rule_backward = i[1] + " -> " + i[0]
-        conf_dict["two-only"][rule_forward] = []
-        conf_dict["two-only"][rule_backward] = []
-        conf_dict["three-only"][rule_forward] = []
-        conf_dict["three-only"][rule_backward] = []
-        conf_dict["two-and-three"][rule_forward] = []
-        conf_dict["two-and-three"][rule_backward] = []
+    attributes_pairs = find_pairs_of_variables(2, list_of_attributes) #finding all permutations of attrbutes with length 2
 
     # build Apriori, using last attribute as class attribute
     apriori = Associator(classname="weka.associations.Apriori", options=["-M", "0.1", "-c", "-1", "-C", "0.1", "-N", "1000"])
@@ -148,24 +138,21 @@ def main(args):
         rule = JWrapper(r)
         list_of_rules.append(str(rule))
 
-    print("attributes_pairs")
-    print(attributes_pairs[34])
-    print(attributes_pairs[34][0])
     for ap in attributes_pairs:
+        tree = Tree()
         for r2 in list_of_rules:#r2 represents rules with 2 variables
             attr_1 = ap[0]
             attr_2 = ap[1]
             if "[" + attr_1+ "]" in r2.split("==>")[0] and "[" + attr_2 + "]" in r2.split("==>")[1]:
-                print(r2)
+                p = re.compile('<conf:(.*)>')  # regular expression to find confidence by finding string "<conf: ***>"
+                tree.create_node(r2.split("<conf")[0] + "\t Conf: " + p.findall(r2)[0],"root")  # root node
                 for r3 in list_of_rules:#r3 represents rules with 3 variables:
                     if "[" + attr_1 + ", " + attr_2 + "]" in  str(r3).split("==>")[0] or "[" + attr_2 + ", " + attr_1 + "]" in  str(r3).split("==>")[0]:
-                        print(r2)
-                        print(r3)
-                        print("****************************")
-                        print("\n")
-
-
-
+                        p = re.compile('<conf:(.*)>')  # regular expression to find confidence by finding string "<conf: ***>"
+                        id = r3
+                        tree.create_node(r3.split("<conf")[0] + "\t Conf" + p.findall(r3)[0], id, parent="root")
+                        tree.show()
+                print("**************************")
 
 if __name__ == "__main__":
     try:
