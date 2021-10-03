@@ -11,12 +11,15 @@ from javabridge import JWrapper
 import re
 from itertools import permutations
 from treelib import Node, Tree
-from statistics import mean, median
+from statistics import  mean, median
 import streamlit as st
 import os
-import rule_tree_insert as p
+import execute_sql as db
 
 st.set_page_config(layout="wide")
+st.text('''treatment=No-Treatment->diagnosis=COPD[Conf: (0.57)]
+└── diagnosis=COPD, treatment=No-Treatment->symptoms=Shortness of breath[Conf:(0.9)]
+''')
 
 
 def is_order(lst):
@@ -50,6 +53,14 @@ def calculate_ascendingness(conf_seq):
     else:
         return 0
 
+#displays tree after user selects number of attributes
+def show_tree(num_of_attr):
+    rows = db.extract_rules(num_of_attr)
+    for i in rows:
+        print(i[0])
+        # st.markdown(i[0])
+
+        st.markdown(i[0].replace("└──","\n└──"))
 
 # create Tree structure for blocks of rules to show rule progression.
 def createRulesTree(num_attr, df):
@@ -109,7 +120,7 @@ def createRulesTree(num_attr, df):
                 st.text("Rule Sequence: " + rule_sequence + "\n")
                 st.text("Confidence Sequence: " + conf_sequence + "\n")
                 conf_seq_list = [float(i) for i in conf_sequence.split("->")]
-                p.insert_tree_db(str(tree),rule_sequence, conf_sequence)
+                db.insert_tree_db(str(tree),rule_sequence, conf_sequence)
                 if len(conf_seq_list) == 1:
                     if rule_sequence in var_seq_order.keys():
                         var_seq_order[rule_sequence].append(conf_seq_list[0])
@@ -148,6 +159,7 @@ def createRulesTree(num_attr, df):
         print("select_attr: ", select_attr)
         # st.sidebar.selectbox("Choose number of atributes", [int(i) for i in range(0,num_of_attr)])
         attr = st.sidebar.selectbox("Choose number of atributes", (select_attr))
+        show_tree(attr)
         # os.remove("output.txt")
     else:
         print("No rule block with 3 attributes are present")
@@ -192,14 +204,14 @@ def main(args):
     confidence = st.sidebar.selectbox("Confidence Threshold", conf_threshold)
     confidence = confidence / 100
 
-    support = 0.05
-    confidence = 0
+    # support = 0.05
+    # confidence = 0
 
     data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/Arff Dataset"
     list_of_files = [f for f in os.listdir(data_folder)]
     filename = st.sidebar.selectbox("Select source data", list_of_files)
     data_file = data_folder + "/" + filename
-    data_file = data_folder + "/" + "4_attr_include_notrt_noresp.arff"
+    # data_file = data_folder + "/" + "4_attr_include_notrt_noresp.arff"
     print("Datafile: ", data_file)
 
     loader = Loader("weka.core.converters.ArffLoader")
