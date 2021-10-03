@@ -1,6 +1,7 @@
 import json
 import os
-file_path = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/MIMIC/mimic-iii-clinical-database-1.4/mimic-iii-clinical-database-1.4/Symptoms_3cond/results-symptoms"
+import csv
+file_path = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/MIMIC/mimic-iii-clinical-database-1.4/mimic-iii-clinical-database-1.4/Symptoms_3cond/notes_output"
 symptom_tup = set()
 for file in os.listdir(file_path):
     if '.out' in file:
@@ -20,8 +21,8 @@ for file in os.listdir(file_path):
             except Exception as e:
                 print(e)
         f.close()
-
-for i in symptom_tup:
-    print(i)
-
-print(len(symptom_tup))
+with open('symptoms.csv','w') as out:
+    csv_out = csv.writer(out)
+    csv_out.writerow(['Filename','Symptom','ICD-10 Code'])
+    for row in symptom_tup:
+        csv_out.writerow(row)

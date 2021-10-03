@@ -1,17 +1,3 @@
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-# Copyright (C) 2014-2018 Fracpete (pythonwekawrapper at gmail dot com)
 from os import replace
 import pandas as pd
 import sys
@@ -31,6 +17,7 @@ import os
 
 st.set_page_config(layout="wide")
 
+
 def is_order(lst):
     if lst == sorted(lst, reverse=False):
         return 'Ascending'
@@ -46,6 +33,24 @@ def perm_elems(lst):
     for i in perm_list:
         p_list.append(', '.join(i))
     return p_list
+
+
+def calculate_ascendingness(conf_seq):
+    # conf_seq = conf_seq.split("->")
+    # conf_seq = [float(i) for i in conf_seq]
+    index = 0
+    ap = 0
+    if len(conf_seq) > 2:
+        if conf_seq[-1] - conf_seq[0] >= 0:
+            while index + 1 < len(conf_seq):
+                if conf_seq[index + 1] - conf_seq[index] >= 0:
+                    ap += 1
+                index += 1
+        print(ap)
+        return ap / (len(conf_seq) - 1)
+    else:
+        return 0
+
 
 # create Tree structure for blocks of rules to show rule progression.
 def createRulesTree(df):
@@ -77,22 +82,14 @@ def createRulesTree(df):
                         a = left + ", " + right  # concatenating lhs and rhs to find the result in lhs of dataframe
                         tree.create_node(left + "->" + right + "[Conf:" + row["Conf"] + "]", a, parent=left)
                         rules_queue.append(left + ", " + right)
-            # print("==================================BLOCK==================================")
-            
             tree.show(line_type="ascii-em")
-            tree.save2file("Result_Tree.txt") 
+            tree.save2file("Result_Tree.txt")
             tree.to_graphviz("graph", shape="circle", graph='digraph')
-            # tree.to_dict()
-            tree.save2file("Ashara.txt")
             tree.to_json(with_data=True)
-            tree.save2file("Result_Tree.txt") 
-            st.text_area("RULE: ",tree)            
-            
-            
-            # f = open("output.txt", "a")
-            
+            tree.save2file("Result_Tree.txt")
+            st.text_area("RULE: ", tree)
+
             for path in tree.paths_to_leaves():
-                # print("-----------------Confidence Progression-----------------")
                 rule_sequence = ""
                 conf_sequence = ""
                 for i in path:
@@ -110,45 +107,50 @@ def createRulesTree(df):
                     else:
                         rule_sequence += " -> " + right
                         conf_sequence += " -> " + conf
-                # f.write("##################BLOCK##############################" + "\n")
                 print("Rule Sequence: " + rule_sequence + "\n")
                 print("Confidence Sequence: " + conf_sequence + "\n")
                 st.text("Rule Sequence: " + rule_sequence + "\n")
                 st.text("Confidence Sequence: " + conf_sequence + "\n")
-                # f.write("Rule Sequence: " + rule_sequence + "\n")
-                # f.write("Confidence Sequence: " + conf_sequence + "\n")
                 conf_seq_list = [float(i) for i in conf_sequence.split("->")]
-                if len(conf_seq_list) >1:
+                if len(conf_seq_list) == 1:
+                    if rule_sequence in var_seq_order.keys():
+                        var_seq_order[rule_sequence].append(conf_seq_list[0])
+                    else:
+                        var_seq_order[rule_sequence] = [conf_seq_list[0]]
+
+                if len(conf_seq_list) == 2:
                     if rule_sequence in var_seq_order.keys():
                         var_seq_order[rule_sequence].append(
                             float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0]))
                     else:
-                        var_seq_order[rule_sequence] = [float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0])]
-                # f.write(is_order(conf_seq_list) + "\n")
-                # f.write("####################################################" + "\n")
-                    
-    # f = open("output.txt")         
-    # st.text_area("Rules",f.read(), height = 500)  
-    # f.close()          
+                        var_seq_order[rule_sequence] = [
+                            float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0])]
+                if len(conf_seq_list) > 2:
+                    if rule_sequence in var_seq_order.keys():
+                        var_seq_order[rule_sequence].append(calculate_ascendingness(conf_seq_list))
+                    else:
+                        var_seq_order[rule_sequence] = [calculate_ascendingness(conf_seq_list)]
     order_mean_dict = dict()
-    for k in var_seq_order.keys():
-        print(k)
-        print("\t Mean: "+  str(mean(var_seq_order[k])))
-        # print("\t Median: "+ str(median(var_seq_order[k])))
-        # st.text(k)
-        order_mean_dict[k] = str(mean(var_seq_order[k]))
-        # st.text(k + " =>" + " Mean: "+  str(mean(var_seq_order[k])))
-        # st.text("\t Median: "+ str(median(var_seq_order[k])))
-    print("\n")
+    if (len(var_seq_order) > 0):
+        for k in var_seq_order.keys():
+            print(k)
+            print("\t Mean: " + str(mean(var_seq_order[k])))
+            order_mean_dict[k] = str(mean(var_seq_order[k]))
+        print("\n")
 
-    for k in order_mean_dict.keys():
-        st.text(str(k) + "=> "+ str(order_mean_dict[k]))
-    max_order = max(order_mean_dict, key=order_mean_dict.get) 
-    st.text("Order with highest mean is: " + "\n \t" + max_order)
-    num_of_attr =  len(df.columns)
-    # st.sidebar.selectbox("Choose number of atributes", [int(i) for i in range(0,num_of_attr)])
-    attr = st.sidebar.selectbox("Choose number of atributes", (1,2,3))
-    # os.remove("output.txt")
+        for k in order_mean_dict.keys():
+            st.text(str(k) + "=> " + str(order_mean_dict[k]))
+
+        print("Length of order_mean_dict is : ", len(order_mean_dict))
+        max_order = max(order_mean_dict, key=order_mean_dict.get)
+        st.text("Order with highest mean is: " + "\n \t" + max_order)
+        num_of_attr = len(df.columns)
+        # st.sidebar.selectbox("Choose number of atributes", [int(i) for i in range(0,num_of_attr)])
+        attr = st.sidebar.selectbox("Choose number of atributes", (1, 2, 3))
+        # os.remove("output.txt")
+    else:
+        print("No rule block with 3 attributes are present")
+        st.text("No rule block with 3 attributes are present with given support and confidence threshold")
 
 
 def run_Apriori(data, sup, conf):
@@ -167,7 +169,7 @@ def run_Apriori(data, sup, conf):
         # wrap the Java object to make its methods accessible
         rule = JWrapper(rule)
         # print(str(i + 1) + ". " + str(rule))
-        rule = str(rule)
+        rule = str(rule).replace("\ufeff", "")
         lhs = rule.split("==>")[0]
         rhs = rule.split("==> ")[1]
         conf = p_conf.findall(rule)[0]
@@ -177,38 +179,39 @@ def run_Apriori(data, sup, conf):
             df_rules.loc[df_rules.shape[0]] = [lhs, rhs, conf]
     createRulesTree(df_rules)
 
+
 def main(args):
     # Streamlit Sidebar and dashboard
     st.sidebar.write("Sidebar")
-    support_threshold = [i for i in range(0,105,5)]
-    support = st.sidebar.selectbox("Support Threshold",support_threshold)
-    support = support/100
+    support_threshold = [i for i in range(0, 105, 5)]
+    support = st.sidebar.selectbox("Support Threshold", support_threshold)
+    support = support / 100
 
-    conf_threshold = [i for i in range(0,105,5)]
-    confidence = st.sidebar.selectbox("Confidence Threshold",conf_threshold)
-    confidence = confidence/100
-    # """
-    # Trains Apriori on the specified dataset
-    # """
+    conf_threshold = [i for i in range(0, 105, 5)]
+    confidence = st.sidebar.selectbox("Confidence Threshold", conf_threshold)
+    confidence = confidence / 100
+
+    # support = 0.05
+    # confidence = 0
+
     data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/Arff Dataset"
-    list_of_files = [f for f in os.listdir(data_folder) ]
+    list_of_files = [f for f in os.listdir(data_folder)]
     filename = st.sidebar.selectbox("Select source data", list_of_files)
-    data_file = data_folder + "/"+ filename
-    # st.write("Datafile: ", data_file)
+    data_file = data_folder + "/" + filename
+    # data_file = data_folder + "/" + "4_attr_include_notrt_noresp.arff"
     print("Datafile: ", data_file)
 
-    # helper.print_info("Loading dataset: " + data_file)
     loader = Loader("weka.core.converters.ArffLoader")
     data = loader.load_file(data_file)
     run_Apriori(data, support, confidence)
+
 
 if __name__ == "__main__":
     try:
         jvm.start()
         main(sys.argv)
-        
+
     except Exception as e:
         print(traceback.format_exc())
     finally:
         jvm.stop()
-
