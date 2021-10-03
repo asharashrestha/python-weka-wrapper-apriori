@@ -14,6 +14,7 @@ from treelib import Node, Tree
 from statistics import mean, median
 import streamlit as st
 import os
+import rule_tree_insert as p
 
 st.set_page_config(layout="wide")
 
@@ -36,8 +37,6 @@ def perm_elems(lst):
 
 
 def calculate_ascendingness(conf_seq):
-    # conf_seq = conf_seq.split("->")
-    # conf_seq = [float(i) for i in conf_seq]
     index = 0
     ap = 0
     if len(conf_seq) > 2:
@@ -53,7 +52,7 @@ def calculate_ascendingness(conf_seq):
 
 
 # create Tree structure for blocks of rules to show rule progression.
-def createRulesTree(df):
+def createRulesTree(num_attr, df):
     var_seq_order = dict()
     for index, row in df.iterrows():
         lhs = row['LHS']
@@ -107,11 +106,10 @@ def createRulesTree(df):
                     else:
                         rule_sequence += " -> " + right
                         conf_sequence += " -> " + conf
-                print("Rule Sequence: " + rule_sequence + "\n")
-                print("Confidence Sequence: " + conf_sequence + "\n")
                 st.text("Rule Sequence: " + rule_sequence + "\n")
                 st.text("Confidence Sequence: " + conf_sequence + "\n")
                 conf_seq_list = [float(i) for i in conf_sequence.split("->")]
+                p.insert_tree_db(str(tree),rule_sequence, conf_sequence)
                 if len(conf_seq_list) == 1:
                     if rule_sequence in var_seq_order.keys():
                         var_seq_order[rule_sequence].append(conf_seq_list[0])
@@ -144,16 +142,19 @@ def createRulesTree(df):
         print("Length of order_mean_dict is : ", len(order_mean_dict))
         max_order = max(order_mean_dict, key=order_mean_dict.get)
         st.text("Order with highest mean is: " + "\n \t" + max_order)
-        num_of_attr = len(df.columns)
+        select_attr = [i+1 for i in range(num_attr)]
+        print("select_attr: ", select_attr)
+        select_attr = select_attr[1:]
+        print("select_attr: ", select_attr)
         # st.sidebar.selectbox("Choose number of atributes", [int(i) for i in range(0,num_of_attr)])
-        attr = st.sidebar.selectbox("Choose number of atributes", (1, 2, 3))
+        attr = st.sidebar.selectbox("Choose number of atributes", (select_attr))
         # os.remove("output.txt")
     else:
         print("No rule block with 3 attributes are present")
         st.text("No rule block with 3 attributes are present with given support and confidence threshold")
 
 
-def run_Apriori(data, sup, conf):
+def run_Apriori(num_attr, data, sup, conf):
     # build Apriori, using last attribute as class attribute
     apriori = Associator(classname="weka.associations.Apriori",
                          options=["-M", str(sup), "-c", "-1", "-C", str(conf), "-N", "1000"])
@@ -177,7 +178,7 @@ def run_Apriori(data, sup, conf):
         rhs = rhs.split("<conf")[0].split(":")[0].replace("[", "").replace("]", "")
         if "," not in rhs:  # keeping only those rules with one element in right
             df_rules.loc[df_rules.shape[0]] = [lhs, rhs, conf]
-    createRulesTree(df_rules)
+    createRulesTree(num_attr, df_rules)
 
 
 def main(args):
@@ -191,22 +192,23 @@ def main(args):
     confidence = st.sidebar.selectbox("Confidence Threshold", conf_threshold)
     confidence = confidence / 100
 
-    # support = 0.05
-    # confidence = 0
+    support = 0.05
+    confidence = 0
 
     data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/Arff Dataset"
     list_of_files = [f for f in os.listdir(data_folder)]
     filename = st.sidebar.selectbox("Select source data", list_of_files)
     data_file = data_folder + "/" + filename
-    # data_file = data_folder + "/" + "4_attr_include_notrt_noresp.arff"
+    data_file = data_folder + "/" + "4_attr_include_notrt_noresp.arff"
     print("Datafile: ", data_file)
 
     loader = Loader("weka.core.converters.ArffLoader")
     data = loader.load_file(data_file)
-    run_Apriori(data, support, confidence)
+    attr_num = data.num_attributes
+    run_Apriori(attr_num, data, support, confidence)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     try:
         jvm.start()
         main(sys.argv)
