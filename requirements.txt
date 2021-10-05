@@ -1,5 +1,6 @@
 arff==0.9
 csv2arff==2.0
+Cython
 igraph==0.1.14
 javabridge==1.0.19
 Markdown==3.3.3
