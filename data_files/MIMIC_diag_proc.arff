@@ -1,0 +1,2215 @@
+@relation MIMIC_diag_proc
+
+@attribute ﻿diagnosis {Pneumonia,Asthma,COPD}
+@attribute procedure {Bronchoscopy,'Mech ventil',Swan-Ganz,Thoracentesi,'n-OR respira','Dx respirat','OR respirato',Tracheostomy,'Ctrl epistax','Dx prs lung',Pneumonectom,'nOR nose mou','Ot resp Rx',Tracheoscopy,'Dx nose mout','Ot Rx ear pr','CT chest'}
+
+@data
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Asthma,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Asthma,?
+Asthma,?
+Pneumonia,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,Bronchoscopy
+Asthma,'Mech ventil'
+Asthma,Swan-Ganz
+Pneumonia,'Dx respirat'
+Pneumonia,Thoracentesi
+Asthma,?
+Asthma,?
+Asthma,'Mech ventil'
+Asthma,?
+Asthma,?
+Pneumonia,?
+Asthma,'Mech ventil'
+Asthma,?
+COPD,?
+Pneumonia,'OR respirato'
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Ctrl epistax'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+COPD,'Mech ventil'
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+COPD,?
+COPD,'Mech ventil'
+COPD,?
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx prs lung'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,Pneumonectom
+Pneumonia,'nOR nose mou'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'n-OR respira'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Dx respirat'
+Pneumonia,Thoracentesi
+Pneumonia,?
+COPD,?
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,?
+Pneumonia,?
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Ot resp Rx'
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Asthma,?
+Asthma,?
+Asthma,?
+Asthma,?
+COPD,?
+COPD,?
+COPD,'Mech ventil'
+COPD,?
+COPD,?
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+COPD,?
+COPD,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,?
+COPD,'Mech ventil'
+COPD,'n-OR respira'
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,'Mech ventil'
+COPD,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Asthma,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Asthma,?
+Asthma,?
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+COPD,Tracheostomy
+Asthma,'Mech ventil'
+Asthma,Tracheostomy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx prs lung'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,Pneumonectom
+Pneumonia,'Dx respirat'
+Asthma,?
+Asthma,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,?
+Asthma,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Pneumonectom
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Pneumonectom
+Pneumonia,Swan-Ganz
+Asthma,?
+Pneumonia,?
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,?
+Asthma,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+COPD,?
+COPD,Bronchoscopy
+COPD,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,'Dx respirat'
+COPD,Tracheostomy
+COPD,'n-OR respira'
+COPD,?
+Pneumonia,'Ctrl epistax'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Asthma,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheoscopy
+Pneumonia,?
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Ot resp Rx'
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Asthma,?
+COPD,'Mech ventil'
+COPD,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,Bronchoscopy
+COPD,Pneumonectom
+COPD,'n-OR respira'
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx prs lung'
+COPD,'Mech ventil'
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,Bronchoscopy
+COPD,'n-OR respira'
+Asthma,'Mech ventil'
+COPD,'Mech ventil'
+COPD,?
+COPD,'Mech ventil'
+COPD,Tracheostomy
+COPD,'n-OR respira'
+Pneumonia,?
+Pneumonia,Swan-Ganz
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,'Mech ventil'
+Asthma,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Asthma,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+COPD,'Mech ventil'
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,Pneumonectom
+Pneumonia,?
+COPD,?
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+COPD,Bronchoscopy
+COPD,?
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,'Mech ventil'
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,?
+COPD,?
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+COPD,Tracheostomy
+COPD,'Dx respirat'
+COPD,'Mech ventil'
+COPD,?
+Asthma,'Mech ventil'
+Pneumonia,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Ot resp Rx'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+Asthma,Tracheoscopy
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,Bronchoscopy
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+COPD,Thoracentesi
+COPD,Tracheostomy
+COPD,?
+Pneumonia,?
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+COPD,Thoracentesi
+COPD,'Mech ventil'
+Asthma,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+Asthma,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'OR respirato'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,Thoracentesi
+Asthma,?
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,Tracheoscopy
+COPD,Tracheostomy
+COPD,'n-OR respira'
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,'Mech ventil'
+Asthma,?
+Asthma,?
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+COPD,Swan-Ganz
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Ctrl epistax'
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,?
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx prs lung'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+COPD,?
+COPD,?
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Asthma,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Asthma,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,Tracheostomy
+Pneumonia,?
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Asthma,?
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Asthma,?
+Asthma,'Mech ventil'
+Asthma,?
+Asthma,?
+Asthma,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+COPD,?
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,Thoracentesi
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'n-OR respira'
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Pneumonectom
+COPD,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,Pneumonectom
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+COPD,'Mech ventil'
+COPD,Tracheostomy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+COPD,?
+COPD,?
+Pneumonia,?
+Asthma,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,Thoracentesi
+Asthma,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Asthma,?
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Asthma,Bronchoscopy
+Asthma,'OR respirato'
+Asthma,'n-OR respira'
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,?
+COPD,'Mech ventil'
+Asthma,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+COPD,?
+Asthma,?
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Dx respirat'
+Pneumonia,?
+COPD,?
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Asthma,?
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,?
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Asthma,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'n-OR respira'
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+COPD,?
+COPD,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Asthma,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,Tracheostomy
+Pneumonia,'Ctrl epistax'
+Pneumonia,'Mech ventil'
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Thoracentesi
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Pneumonectom
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+COPD,?
+COPD,?
+COPD,?
+Asthma,?
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx nose mout'
+Pneumonia,Tracheoscopy
+Pneumonia,Tracheostomy
+Asthma,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+COPD,?
+Pneumonia,?
+Pneumonia,'n-OR respira'
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+COPD,?
+Pneumonia,'Mech ventil'
+Asthma,?
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,?
+COPD,?
+COPD,?
+COPD,?
+COPD,'Ot Rx ear pr'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+Pneumonia,?
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,?
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx prs lung'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,Bronchoscopy
+Asthma,'Dx prs lung'
+Asthma,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,Thoracentesi
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,?
+COPD,?
+COPD,?
+COPD,?
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'n-OR respira'
+COPD,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Dx respirat'
+Pneumonia,'n-OR respira'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+COPD,?
+Asthma,?
+COPD,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Asthma,'Mech ventil'
+Asthma,?
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,Bronchoscopy
+COPD,'n-OR respira'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,?
+Asthma,?
+Asthma,?
+Asthma,?
+Pneumonia,?
+COPD,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+Pneumonia,?
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+Asthma,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,'n-OR respira'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+COPD,'Mech ventil'
+COPD,Thoracentesi
+COPD,Tracheostomy
+COPD,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Asthma,?
+COPD,?
+COPD,?
+COPD,?
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,Pneumonectom
+Pneumonia,Thoracentesi
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Asthma,?
+Pneumonia,Swan-Ganz
+Asthma,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Asthma,?
+COPD,?
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,'n-OR respira'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Asthma,'Mech ventil'
+COPD,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Asthma,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Asthma,?
+Pneumonia,?
+Pneumonia,'CT chest'
+COPD,?
+COPD,?
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Asthma,'Mech ventil'
+Asthma,Pneumonectom
+Asthma,Tracheoscopy
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,?
+COPD,?
+COPD,'Mech ventil'
+COPD,'OR respirato'
+COPD,Pneumonectom
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,'Dx prs lung'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,?
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,'Ctrl epistax'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheoscopy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+COPD,Bronchoscopy
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Pneumonia,Pneumonectom
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Tracheostomy
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+Asthma,Tracheoscopy
+Pneumonia,?
+Asthma,?
+COPD,?
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheoscopy
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'OR respirato'
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Dx nose mout'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Dx respirat'
+Pneumonia,Pneumonectom
+Pneumonia,Thoracentesi
+Pneumonia,Thoracentesi
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,?
+COPD,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Asthma,'Mech ventil'
+Asthma,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+Asthma,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Asthma,?
+Asthma,?
+COPD,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,?
+COPD,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Asthma,?
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'OR respirato'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Asthma,Bronchoscopy
+Asthma,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'n-OR respira'
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,?
+COPD,?
+Asthma,?
+Asthma,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Swan-Ganz
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+COPD,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+COPD,'Mech ventil'
+COPD,Tracheostomy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Pneumonia,?
+Pneumonia,?
+COPD,?
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+Asthma,?
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Asthma,?
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Asthma,?
+Asthma,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Thoracentesi
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Pneumonia,'Mech ventil'
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,?
+COPD,'Mech ventil'
+COPD,'Mech ventil'
+Asthma,?
+Asthma,'Mech ventil'
+Asthma,?
+COPD,?
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'OR respirato'
+Pneumonia,'Dx prs lung'
+Pneumonia,'Mech ventil'
+Pneumonia,'Dx prs lung'
+Pneumonia,'Mech ventil'
+Pneumonia,'Dx prs lung'
+Pneumonia,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Asthma,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,'n-OR respira'
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,Tracheostomy
+COPD,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+COPD,?
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,Tracheoscopy
+COPD,?
+Pneumonia,'Mech ventil'
+Asthma,?
+Asthma,?
+Pneumonia,Thoracentesi
+Pneumonia,'Dx respirat'
+Pneumonia,'OR respirato'
+Pneumonia,Thoracentesi
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+COPD,?
+COPD,?
+COPD,'Mech ventil'
+Asthma,?
+Pneumonia,'Mech ventil'
+Asthma,?
+COPD,?
+Asthma,?
+COPD,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'n-OR respira'
+Pneumonia,'Mech ventil'
+Asthma,'Mech ventil'
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+Pneumonia,Thoracentesi
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,Thoracentesi
+Pneumonia,'Mech ventil'
+COPD,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Dx respirat'
+Pneumonia,'Mech ventil'
+Pneumonia,Tracheostomy
+Pneumonia,'n-OR respira'
+COPD,?
+Pneumonia,'Mech ventil'
+Asthma,'Mech ventil'
+Asthma,?
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,'Mech ventil'
+Pneumonia,?
+Pneumonia,?
+Asthma,'Mech ventil'
+COPD,Bronchoscopy
+COPD,'Mech ventil'
+COPD,Tracheostomy
+Pneumonia,?
+Pneumonia,Bronchoscopy
+Pneumonia,'Mech ventil'
+Pneumonia,Bronchoscopy
