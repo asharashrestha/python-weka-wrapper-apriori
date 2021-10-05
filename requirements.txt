@@ -37,11 +37,7 @@ chardet==3.0.4
 Click==7.0
 cloudpickle==1.2.2
 colorama==0.4.1
-conda==4.10.3
-conda-build==3.18.9
-conda-content-trust==0+unknown
-conda-package-handling==1.6.0
-conda-repo-cli==1.0.4
+
 conda-token==0.3.0
 conda-verify==3.4.2
 contextlib2==0.6.0
