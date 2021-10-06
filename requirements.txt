@@ -25,7 +25,7 @@ ipykernel==6.4.1
 ipython==7.28.0
 ipython-genutils==0.2.0
 ipywidgets==7.6.5
-javabridge @ git+https://github.com/LeeKamentsky/python-javabridge.git@bebed64d485643f8b265b8f8c8da12904a45dc2e
+javabridge
 jedi==0.18.0
 Jinja2==3.0.2
 jsonschema==4.0.1

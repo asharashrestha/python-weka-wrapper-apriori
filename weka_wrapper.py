@@ -17,10 +17,6 @@ import os
 import execute_sql as db
 
 st.set_page_config(layout="wide")
-st.text('''treatment=No-Treatment->diagnosis=COPD[Conf: (0.57)]
-└── diagnosis=COPD, treatment=No-Treatment->symptoms=Shortness of breath[Conf:(0.9)]
-''')
-
 
 def is_order(lst):
     if lst == sorted(lst, reverse=False):
@@ -57,9 +53,6 @@ def calculate_ascendingness(conf_seq):
 def show_tree(num_of_attr):
     rows = db.extract_rules(num_of_attr)
     for i in rows:
-        print(i[0])
-        # st.markdown(i[0])
-
         st.markdown(i[0].replace("└──","\n└──"))
 
 # create Tree structure for blocks of rules to show rule progression.
@@ -165,7 +158,6 @@ def createRulesTree(num_attr, df):
         print("No rule block with 3 attributes are present")
         st.text("No rule block with 3 attributes are present with given support and confidence threshold")
 
-
 def run_Apriori(num_attr, data, sup, conf):
     # build Apriori, using last attribute as class attribute
     apriori = Associator(classname="weka.associations.Apriori",
@@ -191,8 +183,6 @@ def run_Apriori(num_attr, data, sup, conf):
         if "," not in rhs:  # keeping only those rules with one element in right
             df_rules.loc[df_rules.shape[0]] = [lhs, rhs, conf]
     createRulesTree(num_attr, df_rules)
-
-
 def main(args):
     # Streamlit Sidebar and dashboard
     st.sidebar.write("Sidebar")
@@ -203,10 +193,8 @@ def main(args):
     conf_threshold = [i for i in range(0, 105, 5)]
     confidence = st.sidebar.selectbox("Confidence Threshold", conf_threshold)
     confidence = confidence / 100
-
     # support = 0.05
     # confidence = 0
-
     data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/Arff Dataset"
     list_of_files = [f for f in os.listdir(data_folder)]
     filename = st.sidebar.selectbox("Select source data", list_of_files)
