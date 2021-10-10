@@ -17,7 +17,7 @@ import os
 import execute_sql as db
 
 st.set_page_config(layout="wide")
-
+rule_parameter = ""
 def is_order(lst):
     if lst == sorted(lst, reverse=False):
         return 'Ascending'
@@ -58,6 +58,7 @@ def show_tree(num_of_attr):
 # create Tree structure for blocks of rules to show rule progression.
 def createRulesTree(num_attr, df):
     var_seq_order = dict()
+    
     for index, row in df.iterrows():
         lhs = row['LHS']
         rhs = row['RHS']
@@ -86,10 +87,10 @@ def createRulesTree(num_attr, df):
                         tree.create_node(left + "->" + right + "[Conf:" + row["Conf"] + "]", a, parent=left)
                         rules_queue.append(left + ", " + right)
             tree.show(line_type="ascii-em")
-            tree.save2file("Result_Tree.txt")
-            tree.to_graphviz("graph", shape="circle", graph='digraph')
-            tree.to_json(with_data=True)
-            tree.save2file("Result_Tree.txt")
+            # tree.save2file("Result_Tree.txt")
+            # tree.to_graphviz("graph", shape="circle", graph='digraph')
+            # tree.to_json(with_data=True)
+            # tree.save2file("Result_Tree.txt")
             st.text_area("RULE: ", tree)
 
             for path in tree.paths_to_leaves():
@@ -112,26 +113,76 @@ def createRulesTree(num_attr, df):
                         conf_sequence += " -> " + conf
                 st.text("Rule Sequence: " + rule_sequence + "\n")
                 st.text("Confidence Sequence: " + conf_sequence + "\n")
+                
                 conf_seq_list = [float(i) for i in conf_sequence.split("->")]
                 db.insert_tree_db(str(tree),rule_sequence, conf_sequence)
-                if len(conf_seq_list) == 1:
-                    if rule_sequence in var_seq_order.keys():
-                        var_seq_order[rule_sequence].append(conf_seq_list[0])
-                    else:
-                        var_seq_order[rule_sequence] = [conf_seq_list[0]]
+                
+                # When parameter = Mean Confidence
+                if rule_parameter == "Mean Confidence":
+                    if len(conf_seq_list) == 1:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(conf_seq_list[0])
+                        else:
+                            var_seq_order[rule_sequence] = [conf_seq_list[0]]
 
-                if len(conf_seq_list) == 2:
-                    if rule_sequence in var_seq_order.keys():
-                        var_seq_order[rule_sequence].append(
-                            float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0]))
-                    else:
-                        var_seq_order[rule_sequence] = [
-                            float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0])]
-                if len(conf_seq_list) > 2:
-                    if rule_sequence in var_seq_order.keys():
-                        var_seq_order[rule_sequence].append(calculate_ascendingness(conf_seq_list))
-                    else:
-                        var_seq_order[rule_sequence] = [calculate_ascendingness(conf_seq_list)]
+                    if len(conf_seq_list) == 2:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(
+                                float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0]))
+                        else:
+                            var_seq_order[rule_sequence] = [
+                                float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0])]
+
+                    if len(conf_seq_list) > 2:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(
+                                float(conf_sequence.split("->")[-1]) - float(conf_sequence.split("->")[0]))
+                        else:
+                            var_seq_order[rule_sequence] = [calculate_ascendingness(conf_seq_list)]
+
+
+                if rule_parameter == "Ascendingness Consistency Ratio":
+                    if len(conf_seq_list) == 1:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(conf_seq_list[0])
+                        else:
+                            var_seq_order[rule_sequence] = [conf_seq_list[0]]
+
+                    if len(conf_seq_list) == 2:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(
+                                float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0]))
+                        else:
+                            var_seq_order[rule_sequence] = [
+                                float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0])]
+
+                    if len(conf_seq_list) > 2:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(calculate_ascendingness(conf_seq_list))
+                        else:
+                            var_seq_order[rule_sequence] = [calculate_ascendingness(conf_seq_list)]
+
+                if rule_parameter == "Mean Ascendingness Change":
+                    if len(conf_seq_list) == 1:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(conf_seq_list[0])
+                        else:
+                            var_seq_order[rule_sequence] = [conf_seq_list[0]]
+
+                    if len(conf_seq_list) == 2:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(
+                                float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0]))
+                        else:
+                            var_seq_order[rule_sequence] = [
+                                float(conf_sequence.split("->")[1]) - float(conf_sequence.split("->")[0])]
+
+                    if len(conf_seq_list) > 2:
+                        if rule_sequence in var_seq_order.keys():
+                            var_seq_order[rule_sequence].append(calculate_ascendingness(conf_seq_list))
+                        else:
+                            var_seq_order[rule_sequence] = [calculate_ascendingness(conf_seq_list)]
+
     order_mean_dict = dict()
     if (len(var_seq_order) > 0):
         for k in var_seq_order.keys():
@@ -139,20 +190,21 @@ def createRulesTree(num_attr, df):
             print("\t Mean: " + str(mean(var_seq_order[k])))
             order_mean_dict[k] = str(mean(var_seq_order[k]))
         print("\n")
-
+        mean_dict_num_attr = dict()
+        st.header("Mean for different sequences: ")
         for k in order_mean_dict.keys():
-            st.text(str(k) + "=> " + str(order_mean_dict[k]))
+            if len(k.split("->"))==num_attr:
+                mean_dict_num_attr[k] = order_mean_dict[k]
+                st.text(str(k) + "=> " + str(order_mean_dict[k]))
 
         print("Length of order_mean_dict is : ", len(order_mean_dict))
-        max_order = max(order_mean_dict, key=order_mean_dict.get)
+        print("Length of mean_dict_num_attr is : ", len(mean_dict_num_attr))
+        max_order = max(mean_dict_num_attr, key=mean_dict_num_attr.get)
         st.text("Order with highest mean is: " + "\n \t" + max_order)
         select_attr = [i+1 for i in range(num_attr)]
-        print("select_attr: ", select_attr)
-        select_attr = select_attr[1:]
-        print("select_attr: ", select_attr)
         # st.sidebar.selectbox("Choose number of atributes", [int(i) for i in range(0,num_of_attr)])
         attr = st.sidebar.selectbox("Choose number of atributes", (select_attr))
-        show_tree(attr)
+        # show_tree(attr)
         # os.remove("output.txt")
     else:
         print("No rule block with 3 attributes are present")
@@ -161,7 +213,7 @@ def createRulesTree(num_attr, df):
 def run_Apriori(num_attr, data, sup, conf):
     # build Apriori, using last attribute as class attribute
     apriori = Associator(classname="weka.associations.Apriori",
-                         options=["-M", str(sup), "-c", "-1", "-C", str(conf), "-N", "1000"])
+                         options=["-M", str(sup), "-c", "-1", "-C", str(conf), "-N", "100000000"])
     apriori.build_associations(data)
     # iterate association rules (low-level)
     helper.print_info("****** Rules List ******")
@@ -187,19 +239,21 @@ def main(args):
     # Streamlit Sidebar and dashboard
     st.sidebar.write("Sidebar")
     support_threshold = [i for i in range(0, 105, 5)]
+    parameters = ["Mean Confidence","Ascendingness Consistency Ratio","Mean Ascendingness Change"]
+    rule_parameter = st.sidebar.selectbox("Choose Rules Parameter", (parameters))
     support = st.sidebar.selectbox("Support Threshold", support_threshold)
     support = support / 100
 
     conf_threshold = [i for i in range(0, 105, 5)]
     confidence = st.sidebar.selectbox("Confidence Threshold", conf_threshold)
     confidence = confidence / 100
-    # support = 0.05
-    # confidence = 0
+    support = 0.05
+    confidence = 0
     data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/Arff Dataset"
     list_of_files = [f for f in os.listdir(data_folder)]
     filename = st.sidebar.selectbox("Select source data", list_of_files)
     data_file = data_folder + "/" + filename
-    # data_file = data_folder + "/" + "4_attr_include_notrt_noresp.arff"
+    data_file = data_folder + "/" + "4_attr_include_notrt_noresp.arff"
     print("Datafile: ", data_file)
 
     loader = Loader("weka.core.converters.ArffLoader")
