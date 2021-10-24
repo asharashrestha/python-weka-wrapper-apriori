@@ -21,6 +21,7 @@ from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import fpgrowth
 from mlxtend.frequent_patterns import association_rules
 from datetime import datetime
+import random
 
 start_time = datetime.now()
 print("Start Time: ", start_time)
@@ -28,6 +29,7 @@ print("Start Time: ", start_time)
 st.set_page_config(layout="wide")
 rule_parameter = ""
 var_seq_order = dict()
+var_seq_order_lift = dict()
 def is_order(lst):
     if lst == sorted(lst, reverse=False):
         return 'Ascending'
@@ -74,17 +76,18 @@ def show_tree(num_of_attr):
 
 # create Tree structure for blocks of rules to show rule progression.
 def createRulesTree(num_attr, df, r_param):
-    df.to_csv("Dataframe.csv")
+    # df.to_csv("Dataframe.csv")
     
     for index, row in df.iterrows():
         if "," not in row['LHS']: # to start with root node having only two attributes
             lhs = row['LHS']
             rhs = row['RHS']
             conf = row['Conf']
+            lift = row['Lift']
 
             tree = Tree()
             rules_queue = []
-            tree.create_node(lhs + "->" + rhs + "[Conf: " + conf + "]", "root")  # root node
+            tree.create_node(lhs + "->" + rhs + "[Conf: " + conf + "]; " + "[Lift: " + lift + "]"   , "root")  # root node
             l_list = lhs.split(",")
             l_list.append(rhs)
             a = perm_elems(l_list)
@@ -93,7 +96,7 @@ def createRulesTree(num_attr, df, r_param):
                     left = row['LHS']
                     right = row['RHS']
                     a = left + ", " + right
-                    tree.create_node(left + "->" + right + "[Conf:" + row["Conf"] + "]", a, parent="root")
+                    tree.create_node(left + "->" + right + "[Conf:" + row["Conf"] + "]" + "[Lift:" + row["Lift"] + "]", a, parent="root")
                     rules_queue.append(left + ", " + right)
 
             while len(rules_queue) != 0:
@@ -103,7 +106,7 @@ def createRulesTree(num_attr, df, r_param):
                         left = row['LHS']
                         right = row['RHS']
                         a = left + ", " + right  # concatenating lhs and rhs to find the result in lhs of dataframe
-                        tree.create_node(left + "->" + right + "[Conf:" + row["Conf"] + "]", a, parent=left)
+                        tree.create_node(left + "->" + right + "[Conf:" + row["Conf"] + "]"+ "[Lift:" + row["Lift"] + "]", a, parent=left)
                         rules_queue.append(left + ", " + right)
             # tree.show(line_type="ascii-em")
             # tree.save2file("Result_Tree.txt")
@@ -125,17 +128,22 @@ def createRulesTree(num_attr, df, r_param):
                     right = a.split("[Conf:")[0].split("->")[1].split("=")[0]
                     left = a.split("->")[0].split(",")
                     left_attr = ", ".join(l.strip().split("=")[0] for l in left)
-                    conf = a.split("[Conf:")[1].replace("]","").strip()
+                    conf = a.split("[Conf:")[1].split("]")[0].strip()
+                    lift = a.split("Lift:")[1].split("]")[0].strip()
                     if rule_sequence == "":
                         rule_sequence = left_attr + " -> " + right
                         conf_sequence = conf
+                        lift_sequence = lift
                     else:
                         rule_sequence += " -> " + right
                         conf_sequence += " -> " + conf
+                        lift_sequence += " -> " + lift
                 st.text("Rule Sequence: " + rule_sequence + "\n")
                 st.text("Confidence Sequence: " + conf_sequence + "\n")
+                st.text("Lift Sequence: " + lift_sequence + "\n")
                 
                 conf_seq_list = [float(i) for i in conf_sequence.split("->")]
+                lift_seq_list = [float(i) for i in lift_sequence.split("->")]
             
                 # db.insert_tree_db(str(tree).replace("'",""),rule_sequence.replace("'",""), conf_sequence)  
                 # r_param = "Mean Confidence"
@@ -160,6 +168,11 @@ def createRulesTree(num_attr, df, r_param):
                             var_seq_order[rule_sequence].append(conf_seq_list[0])
                         else:
                             var_seq_order[rule_sequence] = [conf_seq_list[0]]
+
+                        if rule_sequence in var_seq_order_lift.keys():
+                            var_seq_order_lift[rule_sequence].append(lift_seq_list[0])
+                        else:
+                            var_seq_order_lift[rule_sequence] = [lift_seq_list[0]]
                     high = float(conf_sequence.split("->")[-1])
                     low = float(conf_sequence.split("->")[0])
                     # if (high - low >=0):
@@ -221,6 +234,7 @@ def createRulesTree(num_attr, df, r_param):
                                 var_seq_order[rule_sequence] = [mean_asc_change(conf_seq_list)]
     
     order_mean_dict = dict()
+    order_mean_dict_lift = dict()
     if (len(var_seq_order) > 0):
     #     max_order_freq = max(var_seq_order, key=var_seq_order.get)
     #     st.text("Order with highest frequency is: " + "\n \t" + max_order_freq)
@@ -234,16 +248,36 @@ def createRulesTree(num_attr, df, r_param):
                 print("\t Mean: " + k + " => " +  str(mean(var_seq_order[k])))
                 order_mean_dict[k] = str(mean(var_seq_order[k]))
             print("\n")
+
+            for k in var_seq_order_lift.keys():
+                print("\t Mean: " + k + " => " +  str(mean(var_seq_order_lift[k])))
+                order_mean_dict_lift[k] = str(mean(var_seq_order_lift[k]))
+            print("\n")
+
+
             mean_dict_num_attr = dict()
             st.header("Mean for different sequences: ")
-            for k in order_mean_dict.keys():
-                if len(k.split("->"))==num_attr:
-                    mean_dict_num_attr[k] = order_mean_dict[k]
-                    st.text(str(k) + "=> " + str(order_mean_dict[k]))
+            if num_attr ==0:
+                for k in order_mean_dict.keys():
+                    if len(k.split("->")) > 2:
+                        st.text(str(k) + "=> " + "Conf: "+ str(order_mean_dict[k]))
+                        continue
+                    for l in order_mean_dict_lift.keys():
+                        if k == l:
+                            st.text(str(k) + "=> " + "Conf: "+ str(order_mean_dict[k] + " Lift: " + str(order_mean_dict_lift[k])))
+                            break
+                max_order = max(order_mean_dict, key=order_mean_dict.get)
+                st.text("Order with highest mean is: " + "\n \t" + max_order)
+            else:
+                for k in order_mean_dict.keys():
+                    if len(k.split("->"))==num_attr:
+                        mean_dict_num_attr[k] = order_mean_dict[k]
+                        st.text(str(k) + "=> " + str(order_mean_dict[k]))
             if len(mean_dict_num_attr) == 0:
                 st.text("No rules of length " + str(num_attr) + " was found.")
-            max_order = max(mean_dict_num_attr, key=mean_dict_num_attr.get)
-            st.text("Order with highest mean is: " + "\n \t" + max_order)
+            else:
+                max_order = max(mean_dict_num_attr, key=mean_dict_num_attr.get)
+                st.text("Order with highest mean is: " + "\n \t" + max_order)
         # select_attr = [i+1 for i in range(num_attr)]
         # # st.sidebar.selectbox("Choose number of atributes", [int(i) for i in range(0,num_of_attr)])
         # attr = st.sidebar.selectbox("Choose number of atributes", (select_attr))
@@ -274,11 +308,20 @@ def createRulesTree(num_attr, df, r_param):
         print("No rule block with 3 attributes are present")
         st.text("No rule block with 3 attributes are present with given support and confidence threshold")
 
-def run_Apriori(num_attr, data, data_file, sup, conf, r_param):
+def run_Apriori(num_attr, data_file, sup, conf, r_param):
 
-    #FP 
-    df= pd.read_csv(data_file)
+    #FP Growth    
+    # #take random sample from large dataset
+    # n = sum(1 for line in open(data_file)) - 1 #number of records in file (excludes header)
+    # s = 2000000 #desired sample size
+    # skip = sorted(random.sample(range(1,n+1),n-s)) #the 0-indexed header will not be included in the skip list
+    # df = pd.read_csv(data_file, dtype = str, skiprows=skip)
+
+
     df = pd.read_csv(data_file, dtype=str)
+    # df = df.sample(frac = 0.1) # take random 10% of dataframe
+    
+
     transactions = []
     for sublist in df.values.tolist():
         clean_sublist = [item for item in sublist if item is not np.nan]
@@ -287,23 +330,44 @@ def run_Apriori(num_attr, data, data_file, sup, conf, r_param):
     te = TransactionEncoder()
     te_array = te.fit(transactions).transform(transactions)
     df = pd.DataFrame(te_array, columns=te.columns_)
+    
     if sup == 0:
         sup = 0.00000000000000001
     frequent_itemsets_fp=fpgrowth(df, min_support=sup, use_colnames=True)
     rules_fp = association_rules(frequent_itemsets_fp, metric="confidence", min_threshold=conf)
-    rules_fp_3cols = rules_fp[["antecedents","consequents","confidence"]]
+    print(rules_fp.head())
+    rules_fp_3cols = rules_fp[["antecedents","consequents","confidence","lift"]]
     
-    #Converting data type of all rows into string
+    # #Converting data type of all rows into string
     rules_fp_3cols["antecedents"]=rules_fp_3cols["antecedents"].apply(str)
     rules_fp_3cols["consequents"]=rules_fp_3cols["consequents"].apply(str)
     rules_fp_3cols["confidence"]=rules_fp_3cols["confidence"].apply(str)
+    rules_fp_3cols["lift"]=rules_fp_3cols["lift"].apply(str)
+    
+    
     # deleting rows where there are more than 1 element in RHS:
     df_RHS_1item = rules_fp_3cols[~rules_fp_3cols['consequents'].str.contains(',')]
-    df_rules = df_RHS_1item.rename({'antecedents': 'LHS', 'consequents': 'RHS', 'confidence':'Conf'}, axis=1)  # renaming columns
+    df_rules = df_RHS_1item.rename({'antecedents': 'LHS', 'consequents': 'RHS', 'confidence':'Conf', 'lift':'Lift'}, axis=1)  # renaming columns
+    print(df_rules.head())  
+    # df_rules = df_rules.apply(lambda col: col.str.replace('frozenset', ''))
+    # df_rules = df_rules.apply(lambda col: col.str.replace("\(\{", ""))
+    # df_rules = df_rules.apply(lambda col: col.str.replace("\}\)", ""))
 
-    df_rules = df_rules.apply(lambda col: col.str.replace('frozenset', ''))
-    df_rules = df_rules.apply(lambda col: col.str.replace("\(\{", ""))
-    df_rules = df_rules.apply(lambda col: col.str.replace("\}\)", ""))
+    df_rules["LHS"] = df_rules["LHS"].str.replace("frozenset", "").astype(str)
+    df_rules["RHS"] = df_rules["RHS"].str.replace("frozenset", "").astype(str)
+    df_rules["LHS"] = df_rules["LHS"].str.replace("\(\{", "").astype(str)
+    df_rules["RHS"] = df_rules["RHS"].str.replace("\(\{", "").astype(str)
+    df_rules["LHS"] = df_rules["LHS"].str.replace("\}\)", "").astype(str)
+    df_rules["RHS"] = df_rules["RHS"].str.replace("\}\)", "").astype(str)
+    df_rules["LHS"] = df_rules["LHS"].str.replace("'", "").astype(str)
+    df_rules["RHS"] = df_rules["RHS"].str.replace("'", "").astype(str)
+    # df_rules["LHS"].replace("\(\{", "")
+    # df_rules["LHS"].replace("\}\)", "")
+    
+    # df_rules["RHS"].str.replace("frozenset", "").astype(str)
+    print(df_rules.head())
+    # df_rules["RHS"].replace("\(\{", "")
+    # df_rules["RHS"].replace("\}\)", "")
 
     createRulesTree(num_attr, df_rules, r_param)
 def main(args):
@@ -320,32 +384,32 @@ def main(args):
     conf_threshold = [i for i in range(0, 101, 1)]
     confidence = st.sidebar.select_slider("Confidence Threshold", conf_threshold)
     confidence = confidence / 100
-    # support = 0.005
-    # confidence = 0.10
-    # rule_parameter = "Occurence"
-    data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/Arff Dataset"
-
+    support = 0.01
+    confidence = 0
+    rule_parameter = "Mean Confidence"
     data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/CSV"
     list_of_files = [f for f in os.listdir(data_folder)]
-    filename = st.sidebar.selectbox("Select source data", list_of_files)
+    filename = st.sidebar.selectbox("Select source data", sorted(list_of_files))
     data_file = data_folder + "/" + filename
-    attr_num = 3
+    num_of_attr = [i for i in range(11)]
+    attr_num = st.sidebar.selectbox("Number of Attributes", num_of_attr)
+    attr_num = 0
     # data_file = data_folder + "/" + "Grouped.csv"
     # data_file = data_folder + "/" +  "test_FPGrowth.csv"
     # data_file = data_folder + "/" +  "Inpatient_Claims_PUF.csv"
-    # data_file = data_folder + "/" +  "3_attr_include_notrt_noresp.csv"
+    data_file = data_folder + "/" +  "MIMIC_Sym_Proc_Diag_Drug.csv"
     st.text("Data File: " + data_file.split("/")[-1])
     st.text("Rule Parameter: " + rule_parameter)
-    st.text("Support: " + str(support))
-    st.text("Confidence: " + str(confidence))
+    st.text("Support: " + str(support * 100) + "%")
+    st.text("Confidence: " + str(confidence * 100) + "%")
     print("Datafile: ", data_file)
 
     # loader = Loader("weka.core.converters.ArffLoader")
     # data = loader.load_file(data_file)
     # attr_num = data.num_attributes
-    data = ""
+    # data = ""
     
-    run_Apriori(attr_num, data,data_file, support, confidence, rule_parameter)
+    run_Apriori(attr_num, data_file, support, confidence, rule_parameter)
 
 if __name__ == "__main__": 
     try:
