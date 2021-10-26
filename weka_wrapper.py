@@ -173,6 +173,7 @@ def createRulesTree(num_attr, df, r_param):
 
                     high_lift = float(lift_sequence.split("->")[-1])
                     low_lift = float(lift_sequence.split("->")[0])
+
                     if (high - low)>=0 and (high_lift - low_lift) >= 0:
                         if len(conf_seq_list) == 2:
                             if rule_sequence in var_seq_order.keys():
@@ -378,6 +379,7 @@ def run_Apriori(num_attr, data_file, sup, conf, r_param):
 def main(args):
     # Streamlit Sidebar and dashboard
     st.sidebar.write("Sidebar")
+    st.write("TEST")
     support_threshold = [i for i in range(0, 101, 1)]
     parameters = ["Occurence","Mean Confidence","Ascendingness Consistency Ratio","Mean Ascendingness Change"]
     rule_parameter = st.sidebar.selectbox("Choose Rules Parameter", (parameters))
@@ -389,20 +391,20 @@ def main(args):
     conf_threshold = [i for i in range(0, 101, 1)]
     confidence = st.sidebar.select_slider("Confidence Threshold", conf_threshold)
     confidence = confidence / 100
-    # support = 0.01
-    # confidence = 0
-    # rule_parameter = "Mean Confidence"
+    support = 0
+    confidence = 0
+    rule_parameter = "Mean Confidence"
     data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/CSV"
     list_of_files = [f for f in os.listdir(data_folder)]
     filename = st.sidebar.selectbox("Select source data", sorted(list_of_files))
     data_file = data_folder + "/" + filename
     num_of_attr = [i for i in range(11)]
     attr_num = st.sidebar.selectbox("Number of Attributes", num_of_attr)
-    # attr_num = 0
+    attr_num = 2
     # data_file = data_folder + "/" + "Grouped.csv"
     # data_file = data_folder + "/" +  "test_FPGrowth.csv"
     # data_file = data_folder + "/" +  "Inpatient_Claims_PUF.csv"
-    # data_file = data_folder + "/" +  "MIMIC_Sym_Proc_Diag_Drug.csv"
+    data_file = data_folder + "/" +  "LDS_Sym_Proc_Diag.csv"
     st.text("Data File: " + data_file.split("/")[-1])
     st.text("Rule Parameter: " + rule_parameter)
     st.text("Support: " + str(support * 100) + "%")
