@@ -17,10 +17,12 @@ start_time = datetime.now()
 print("Start Time: ", start_time)
 
 st.set_page_config(layout="wide")
-sup = 0.0000000001 
+
+sup = 0.0001 
 conf = 0
 data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/CSV"
-data_file = data_folder + "/" +  "3_attr_include_notrt_noresp.csv"
+data_file = data_folder + "/" +  "Synpuf_3attr.csv"
+st.write("DataFile: ", data_file)
 var_seq_order = dict()
 var_seq_order_lift = dict()
 lift_mult_conf_dict = dict()
@@ -67,6 +69,7 @@ def createRulesTree(df):
                 if k == l:
                     a = float(order_mean_dict[k]) * float(order_mean_dict_lift[k])
                     st.text(str(k) + "=> " + "; Conf: "+ str(order_mean_dict[k]) + " ; Lift: " + str(order_mean_dict_lift[k]) + "; Multiply: " + str(round(a,2)))
+                    print(str(k) + "=> " + "; Conf: "+ str(order_mean_dict[k]) + " ; Lift: " + str(order_mean_dict_lift[k]) + "; Multiply: " + str(round(a,2)))
                     lift_mult_conf_dict[k] = a
                     break
         max_order = max(order_mean_dict, key=order_mean_dict.get)
