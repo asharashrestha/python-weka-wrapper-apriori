@@ -18,7 +18,7 @@ print("Start Time: ", start_time)
 
 st.set_page_config(layout="wide")
 
-sup = 0.0001 
+sup = 0.001 
 conf = 0
 data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/CSV"
 data_file = data_folder + "/" +  "Synpuf_3attr.csv"
@@ -29,8 +29,7 @@ lift_mult_conf_dict = dict()
 
 # create Tree structure for blocks of rules to show rule progression.
 def createRulesTree(df):
-    for index, row in df.iterrows():
-        
+    for index, row in df.iterrows(): 
         l = row["LHS"]
         r = row["RHS"]
         lhs_attr = l.split("=")[0] 
@@ -55,6 +54,7 @@ def createRulesTree(df):
 
     order_mean_dict = dict()
     order_mean_dict_lift = dict()
+    asc_dict = dict()
     if (len(var_seq_order) > 0):
         for k in var_seq_order.keys():
             order_mean_dict[k] = str(mean(var_seq_order[k]))
@@ -68,8 +68,9 @@ def createRulesTree(df):
             for l in order_mean_dict_lift.keys():
                 if k == l:
                     a = float(order_mean_dict[k]) * float(order_mean_dict_lift[k])
-                    st.text(str(k) + "=> " + "; Conf: "+ str(order_mean_dict[k]) + " ; Lift: " + str(order_mean_dict_lift[k]) + "; Multiply: " + str(round(a,2)))
-                    print(str(k) + "=> " + "; Conf: "+ str(order_mean_dict[k]) + " ; Lift: " + str(order_mean_dict_lift[k]) + "; Multiply: " + str(round(a,2)))
+                    st.text(str(k) + "=> " + "; Conf: "+ str(order_mean_dict[k]) + " ; Lift: " + str(order_mean_dict_lift[k]) + "; Lift * Confidence: " + str(round(a,2)))
+                    asc_dict[k] = round(a,2)
+                    print(str(k) + "=> " + "; Conf: "+ str(order_mean_dict[k]) + " ; Lift: " + str(order_mean_dict_lift[k]) + "; Lift * Confidence: " + str(round(a,2)))
                     lift_mult_conf_dict[k] = a
                     break
         max_order = max(order_mean_dict, key=order_mean_dict.get)
@@ -77,6 +78,21 @@ def createRulesTree(df):
  
         max_order = max(lift_mult_conf_dict, key=lift_mult_conf_dict.get)
         st.text("Order with highest score according to lift * conf is: " + "\n \t" + max_order)
+        asc_dict =  dict(sorted(asc_dict.items(), key=lambda item: item[1])) #sorting dictionary by value.
+        st.write(asc_dict)
+        for key, value in asc_dict.items():
+            elems = key.split("->")
+            LHS = elems[0]
+            RHS = elems[1]
+            CL = value
+            for key1, value1 in asc_dict.items():
+                elems1 = key1.split("->")
+                LHS1 = elems1[0]
+                RHS1 = elems1[1]
+                CL1 = value1
+                if LHS1 == RHS and value1>=value and LHS!=RHS1:
+                    st.subheader("Order that satisfy Ascendingness: ")
+                    st.write(LHS+"->"+RHS+"->"+RHS1)
 
 def run_Apriori(data_file):
     df = pd.read_csv(data_file, dtype=str)
@@ -88,7 +104,7 @@ def run_Apriori(data_file):
     te_array = te.fit(transactions).transform(transactions)
     df = pd.DataFrame(te_array, columns=te.columns_)
     
-    frequent_itemsets_fp=fpgrowth(df, min_support=sup, use_colnames=True)
+    frequent_itemsets_fp=fpgrowth(df, min_support=0.00000001, use_colnames=True)
     rules_fp = association_rules(frequent_itemsets_fp, metric="confidence", min_threshold=conf)
     rules_fp_3cols = rules_fp[["antecedents","consequents","confidence","lift"]]
     
@@ -98,8 +114,8 @@ def run_Apriori(data_file):
     rules_fp_3cols["confidence"]=rules_fp_3cols["confidence"].apply(str)
     rules_fp_3cols["lift"]=rules_fp_3cols["lift"].apply(str)
     
-    for index, row in rules_fp_3cols.iterrows():
-        db.insert_FpGrowth_rules(row["antecedents"],row["consequents"],row["confidence"],row["lift"], data_file.split("/")[-1])
+    # for index, row in rules_fp_3cols.iterrows():
+    #     db.insert_FpGrowth_rules(row["antecedents"],row["consequents"],row["confidence"],row["lift"], data_file.split("/")[-1])
 
     # deleting rows where there are more than 1 element in RHS:
     df_RHS_1item = rules_fp_3cols[~rules_fp_3cols['consequents'].str.contains(',')]
@@ -107,7 +123,8 @@ def run_Apriori(data_file):
     df = df_RHS_1item[~rules_fp_3cols['antecedents'].str.contains(',')]
 
     df_rules = df.rename({'antecedents': 'LHS', 'consequents': 'RHS', 'confidence':'Conf', 'lift':'Lift'}, axis=1)  # renaming columns
-
+    print(df_rules.head())
+    print(df_rules.dtypes)
     df_rules["LHS"] = df_rules["LHS"].str.replace("frozenset", "").astype(str)
     df_rules["RHS"] = df_rules["RHS"].str.replace("frozenset", "").astype(str)
     df_rules["LHS"] = df_rules["LHS"].str.replace("\(\{", "").astype(str)

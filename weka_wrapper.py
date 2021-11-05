@@ -379,7 +379,7 @@ def run_Apriori(num_attr, data_file, sup, conf, r_param):
 def main(args):
     # Streamlit Sidebar and dashboard
     st.sidebar.write("Sidebar")
-    st.write("TEST")
+    
     support_threshold = [i for i in range(0, 101, 1)]
     parameters = ["Occurence","Mean Confidence","Ascendingness Consistency Ratio","Mean Ascendingness Change"]
     rule_parameter = st.sidebar.selectbox("Choose Rules Parameter", (parameters))
@@ -406,9 +406,9 @@ def main(args):
     # data_file = data_folder + "/" +  "Inpatient_Claims_PUF.csv"
     data_file = data_folder + "/" +  "LDS_Sym_Proc_Diag.csv"
     st.text("Data File: " + data_file.split("/")[-1])
-    st.text("Rule Parameter: " + rule_parameter)
-    st.text("Support: " + str(support * 100) + "%")
-    st.text("Confidence: " + str(confidence * 100) + "%")
+    # st.text("Rule Parameter: " + rule_parameter)
+    # st.text("Support: " + str(support * 100) + "%")
+    # st.text("Confidence: " + str(confidence * 100) + "%")
     print("Datafile: ", data_file)
 
     # loader = Loader("weka.core.converters.ArffLoader")
