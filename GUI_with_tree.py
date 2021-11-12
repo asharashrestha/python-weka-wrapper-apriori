@@ -1,5 +1,8 @@
 import pandas as pd
 import streamlit as st
+# from st_aggrid import AgGrid
+from st_aggrid import AgGrid, DataReturnMode, GridUpdateMode, GridOptionsBuilder
+
 from treelib import Node, Tree
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import fpgrowth
@@ -7,27 +10,20 @@ from mlxtend.frequent_patterns import association_rules
 import numpy as np
 
 def createRulesTree(df_rules):
-        print(df_rules.head())
-
-        # filter df for LHS with the argument given by user.
-        # if self.filter != None:
-        #     df_rules = df_rules[df_rules['LHS'].str.contains(self.filter)]
-        print("Reached Here")
         for index, row in df_rules.iterrows():
             lhs = row['LHS']
             rhs = row['RHS']
             if ',' not in lhs:  # keeping such rules as rules where # of elem in lhs and rhs is 1.
                 tree = Tree()
                 tree.create_node(lhs + "->" + rhs + "[Conf: " + row["Conf"] + "]", "root")  # root node
-
                 my_queue = []
-
                 for index, row in df_rules.iterrows():
                     left_rule = lhs + ', ' + rhs
                     if (row['LHS'] == left_rule):
                         left = row['LHS']
                         right = row['RHS']
                         a = left + ", " + right
+                        
                         tree.create_node(left + "->" + right + "[Conf:" + row["Conf"] + "]", a, parent="root")
                         my_queue.append(left + ", " + right)
 
@@ -41,12 +37,12 @@ def createRulesTree(df_rules):
                             tree.create_node(left + "->" + right + "[Conf:" + row["Conf"] + "]", a, parent=left)
                             my_queue.append(left + ", " + right)
 
-                tree.show(line_type="ascii-em")
-                if os.path.exists("tree.txt"):
-                    os.remove("tree.txt")
+                # tree.show(line_type="ascii-em")
+                # if os.path.exists("tree.txt"):
+                #     os.remove("tree.txt")
 
-                tree.save2file('tree.txt', line_type='ascii-em')
-                self.showTree()
+                # tree.save2file('tree.txt', line_type='ascii-em')
+                # self.showTree()
 @st.cache
 def run_FP_Growth(data_file):
     df = pd.read_csv(data_file, dtype=str)   
@@ -78,6 +74,9 @@ def run_FP_Growth(data_file):
     df_rules["RHS"] = df_rules["RHS"].str.replace("\}\)", "").astype(str)
     df_rules["LHS"] = df_rules["LHS"].str.replace("'", "").astype(str)
     df_rules["RHS"] = df_rules["RHS"].str.replace("'", "").astype(str)
+
+    df_rules["Conf"] = np.round(df_rules["Conf"].astype(float), decimals=2)
+    df_rules["Lift"] = np.round(df_rules["Lift"].astype(float), decimals=2)
     return df_rules
 
 def sort_attributes(df_rules):  
@@ -91,9 +90,9 @@ def sort_attributes(df_rules):
     return df
 
 
-
+st.set_page_config(layout="centered")
 data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/GUI"
-data_file = data_folder + "/GUI_Claims_LDS_selected.csv"
+data_file = data_folder + "/GUI_Claims_LDS_selected_CCS.csv"
 df = pd.read_csv(data_file, dtype=str)   
 print(list(df))
 for attr in list(df):
@@ -105,16 +104,14 @@ df_rules = sort_attributes(df_rules)
 print(df_rules.to_csv("FP_Growth_rules.csv"))
 
 symptoms=list(np.unique(df[['Symptom']])) 
-diagnosis=list(np.unique(df[['diagnosis']])) 
-procedure=list(np.unique(df[['procedure']]))
+diagnosis=list(np.unique(df[['Diagnosis']])) 
+procedure=list(np.unique(df[['Procedure']]))
 TOT_CHRG=list(np.unique(df[['TOT_CHRG']])) 
 LOS=list(np.unique(df[['LOS']])) 
 STUS_CD=list(np.unique(df[['STUS_CD']])) 
 
 if(len(df_rules)!=0):
-    selected_symptom=""
-    selected_diagnosis=""
-    selected_procedure=""
+
     clinical_outcomes =set()
 
     selected_seq = st.sidebar.selectbox("Select sequence: ", ["Symptom->Diagnosis->Procedure", "Symptom->Procedure->Diagnosis"])
@@ -123,25 +120,42 @@ if(len(df_rules)!=0):
     
     if selected_symptom is not None:
         df_2 = df_rules[(df_rules['LHS'] == selected_symptom)]
-        df_2 = df_2[df_2.apply(lambda r: r.str.contains('Diagnosis', case=False).any(), axis=1)]       
+        df_2 = df_2[df_2.apply(lambda r: r.str.contains('Diagnosis', case=False).any(), axis=1)] 
+        # st.dataframe(df_2)
+        gb = GridOptionsBuilder.from_dataframe(df_2)
+        gb.configure_grid_options( rowHeight=5)
+        grid_response = AgGrid(df_2,height=100)     
         diagnosis_list = list(np.unique(df_2[['RHS']])) 
         selected_diagnosis = st.sidebar.selectbox("Select Diagnosis: ", diagnosis_list)
-
-    if selected_diagnosis is not None:
-        df_3 = df_rules[(df_rules['LHS'] == selected_diagnosis + ", " + selected_symptom)]
-        df_3 = df_3[df_3.apply(lambda r: r.str.contains('Procedure', case=False).any(), axis=1)]  
-        procedure_list = list(np.unique(df_3[['RHS']])) 
-        selected_procedure = st.sidebar.selectbox("Select Procedure: ", procedure_list)
-   
-    if selected_procedure is not None:
-        df_4 = df_rules[(df_rules['LHS'] == selected_diagnosis + ", " + selected_symptom + ", " + selected_procedure)]
-        for index, row in df_4.iterrows():
-            clinical_outcomes.add(row['RHS'].split("=")[0])
-        outcome = st.sidebar.selectbox("Select Outcome: ", clinical_outcomes)
-        if outcome is not None:
-            df_4 = df_4[df_4.apply(lambda r: r.str.contains(outcome, case=False).any(), axis=1)]  
-            # charge_list = list(np.unique(df_4[['RHS']])) 
-            st.write(df_4)
-
-
-# createRulesTree(df_rules)
+        tree = Tree()
+        if selected_diagnosis is not None:
+            tree.create_node(selected_symptom + "->" + selected_diagnosis, "root")  
+            # st.text_area("Rule: ", tree, height=10)
+            st.write("Rule:")
+            st.text(tree)
+            df_3 = df_rules[(df_rules['LHS'] == selected_diagnosis + ", " + selected_symptom)]
+            df_3 = df_3[df_3.apply(lambda r: r.str.contains('Procedure', case=False).any(), axis=1)] 
+            gb = GridOptionsBuilder.from_dataframe(df_3)
+            gb.configure_grid_options( rowHeight=5)
+            grid_response = AgGrid(df_3,height=100)
+            # AgGrid(df_3) 
+            procedure_list = list(np.unique(df_3[['RHS']])) 
+            selected_procedure = st.sidebar.selectbox("Select Procedure: ", procedure_list)
+            lhs = selected_symptom + ", " + selected_diagnosis
+            if selected_procedure is not None:
+                rhs = selected_procedure
+                tree.create_node(lhs + "->" + rhs, "name_1", parent="root")
+                st.write("Rule:")
+                st.text(tree)
+                # st.text_area("Rule: ", tree, height=1)
+                df_4 = df_rules[(df_rules['LHS'] == selected_diagnosis  + ", " + selected_procedure + ", " + selected_symptom)]
+                for index, row in df_4.iterrows():
+                    clinical_outcomes.add(row['RHS'].split("=")[0])
+                outcome = st.sidebar.selectbox("Select Outcome: ", clinical_outcomes)
+                print("CLINICAL OUTCOMES",clinical_outcomes)
+                if outcome is not None:
+                    df_4 = df_4[df_4.apply(lambda r: r.str.contains(outcome + "=", case=False).any(), axis=1)]  
+                  
+                    gb = GridOptionsBuilder.from_dataframe(df_4)
+                    gb.configure_grid_options( rowHeight=5)
+                    grid_response = AgGrid(df_4,height=100)
