@@ -57,15 +57,21 @@ def run_FP_Growth(data_file):
     frequent_itemsets_fp=fpgrowth(df_fp, min_support=0.0001, use_colnames=True)
     # global rules_fp
     rules_fp = association_rules(frequent_itemsets_fp, metric="confidence", min_threshold=0)
-    rules_fp_3cols = rules_fp[["antecedents","consequents","confidence","lift"]]
+    rules_fp_3cols = rules_fp[["antecedents","consequents","confidence","lift", "consequent support"]]
     rules_fp_3cols["antecedents"]=rules_fp_3cols["antecedents"].apply(str)
     rules_fp_3cols["consequents"]=rules_fp_3cols["consequents"].apply(str)
     rules_fp_3cols["confidence"]=rules_fp_3cols["confidence"].apply(str)
     rules_fp_3cols["lift"]=rules_fp_3cols["lift"].apply(str)
+    # rules_fp_3cols["antecedent support"]=rules_fp_3cols["antecedent support"].apply(str)
+    rules_fp_3cols["consequent support"]=rules_fp_3cols["consequent support"].apply(str)
+    
+
 
     # deleting rows where there are more than 1 element in RHS:
     df_RHS_1item = rules_fp_3cols[~rules_fp_3cols['consequents'].str.contains(',')]
-    df_rules = df_RHS_1item.rename({'antecedents': 'LHS', 'consequents': 'RHS', 'confidence':'Conf', 'lift':'Lift'}, axis=1) 
+    df_rules = df_RHS_1item.rename({'antecedents': 'LHS', 'consequents': 'RHS', 
+    'confidence':'Conf', 'lift':'Lift',  'consequent support':'rhs_sup'}, axis=1)  
+
     df_rules["LHS"] = df_rules["LHS"].str.replace("frozenset", "").astype(str)
     df_rules["RHS"] = df_rules["RHS"].str.replace("frozenset", "").astype(str)
     df_rules["LHS"] = df_rules["LHS"].str.replace("\(\{", "").astype(str)
@@ -77,6 +83,24 @@ def run_FP_Growth(data_file):
 
     df_rules["Conf"] = np.round(df_rules["Conf"].astype(float), decimals=2)
     df_rules["Lift"] = np.round(df_rules["Lift"].astype(float), decimals=2)
+    # df_rules["lhs_sup"] = np.round(df_rules["lhs_sup"].astype(float), decimals=2)
+    df_rules["rhs_sup"] = np.round(df_rules["rhs_sup"].astype(float), decimals=2)
+
+    for index, row in df_rules.iterrows():
+        conf = row['Conf']
+        rhs_sup = row['rhs_sup'] 
+        cf= 0
+
+        if conf > rhs_sup:  
+            cf = (conf -  rhs_sup)/(1-rhs_sup)
+            cf = round(cf,2)
+        elif conf < rhs_sup:
+            cf = (conf - rhs_sup)/rhs_sup
+            cf = round(cf,2)
+        else:
+            cf = 0
+        df.at[index,'cf']= cf
+    print(df)
     return df_rules
 
 def sort_attributes(df_rules):  
@@ -90,7 +114,7 @@ def sort_attributes(df_rules):
     return df
 
 
-st.set_page_config(layout="centered")
+st.set_page_config(layout="wide")
 data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/GUI"
 data_file = data_folder + "/GUI_Claims_LDS_selected_CCS.csv"
 df = pd.read_csv(data_file, dtype=str)   
