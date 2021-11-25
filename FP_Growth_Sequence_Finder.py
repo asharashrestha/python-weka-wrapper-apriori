@@ -18,22 +18,25 @@ print("Start Time: ", start_time)
 
 # st.set_page_config(layout="wide")
 
-sup = 0.01 
-conf = 0.1
+# sup = 0.01 
+# conf = 0.1
 data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/CSV"
+# data_folder = "/Users/ashara/Documents/Study/Research/Dissertation/One Drive/OneDrive - University of Texas at Arlington/Dissertation/data_files/GUI"
 # data_file = data_folder + "/" +  "temp_with_drug_2.csv" # Highest rank order is Symtpom => Procedure => Diagnosis => Drug with Support = 10% and Conf = 0
 # # Symptom -> diag -> Drug -> proc Sup = 0.01; Conf = 0.1
 data_file = data_folder + "/" +  "temp_with_drug_1.csv" # Rank 2 is Symptom-> Diagnosis -> Procedure -> Drug Sup = 0.01; Conf = 0.1
 # data_file = data_folder + "/" +  "Synpuf_3attr.csv" # rank 1 is Symptom => Diagnosis => Procedure: Sup = 0.0001; Conf = 0.1
-st.write("DataFile: ", data_file)
+# st.write("DataFile: ", data_file)
 var_seq_order_conf = dict()
 var_seq_order_lift = dict()
 var_seq_order_cf = dict()
 lift_mult_conf_dict = dict()
 final_dict = dict()
 
+
 # create Tree structure for blocks of rules to show rule progression.
-def createRulesTree(df):
+def createRulesTree(df, metric):
+    count_write=0
     for index, row in df.iterrows(): 
         l = row["LHS"]
         r = row["RHS"]
@@ -47,23 +50,37 @@ def createRulesTree(df):
         rhs_sup =row["rhs_sup"]
         # conf = str(round(float(row["Conf"]),2))
         # lift = str(round(float(row["Lift"]),2))
-        metric_list = ["Certainty Factor","Confidence", "Lift"]
-        metric = st.sidebar.selectbox("Select a metric", metric_list)
+        
         #Using Certainy Factor
         if conf > rhs_sup:
             cf = (conf -  rhs_sup)/(1-rhs_sup)
+            cf = round(cf,4)
         elif conf < rhs_sup:
             cf = (conf - rhs_sup)/rhs_sup
+            cf = round(cf,4)
         else:
             cf = 0
+        # #Using Conviction
+        # cf = (1 - rhs_sup)/(1-conf)
+        # if conf > rhs_sup:
+        #     cf = (conf -  rhs_sup)/(1-rhs_sup)
+        #     cf = round(cf,4)
+        # elif conf < rhs_sup:
+        #     cf = (conf - rhs_sup)/rhs_sup
+        #     cf = round(cf,4)
+        # else:
+        #     cf = 0
 
-        rule = l + "->" + r + "[Conf: " + str(conf) + "] [Lift: " + str(lift) + "] [CF: " + str(cf) +"]"
+        rule = l + "\n└──" + r + "\n[Conf: " + str(conf) + "] [Lift: " + str(lift) + "] [CF: " + str(cf) +"]"
         st.text_area("RULE: ", rule)
+        # st.text_area(rule, height=10)
         rule_sequence = lhs_attr + "->" + rhs_attr
         if rule_sequence in var_seq_order_conf.keys():
-            var_seq_order_conf[rule_sequence].append(float(conf))
+            if cf > 0:
+                var_seq_order_conf[rule_sequence].append(float(conf*lift))
         else:
-            var_seq_order_conf[rule_sequence] = [float(conf)]
+            if cf > 0: 
+                var_seq_order_conf[rule_sequence] = [float(conf*lift)]
 
         if rule_sequence in var_seq_order_lift.keys():
             var_seq_order_lift[rule_sequence].append(float(lift))
@@ -71,8 +88,10 @@ def createRulesTree(df):
             var_seq_order_lift[rule_sequence] = [float(lift)]
 
         if rule_sequence in var_seq_order_cf.keys():
+            # if cf > 0:
             var_seq_order_cf[rule_sequence].append(float(cf))
         else:
+            # if cf > 0:
             var_seq_order_cf[rule_sequence] = [float(cf)]
 
     order_mean_dict_conf = dict()
@@ -81,13 +100,13 @@ def createRulesTree(df):
     asc_dict = dict()
     if (len(var_seq_order_conf) > 0):
         for k in var_seq_order_conf.keys():
-            order_mean_dict_conf[k] = str(mean(var_seq_order_conf[k]))
+            order_mean_dict_conf[k] = str(round(mean(var_seq_order_conf[k]),4))
 
         for k in var_seq_order_lift.keys():
-            order_mean_dict_lift[k] = str(mean(var_seq_order_lift[k]))
+            order_mean_dict_lift[k] = str(round(mean(var_seq_order_lift[k]),4))
             
         for k in var_seq_order_cf.keys():
-            order_mean_dict_cf[k] = str(mean(var_seq_order_cf[k]))
+            order_mean_dict_cf[k] = str(round(mean(var_seq_order_cf[k]),4))
 
         mean_dict_num_attr = dict()
         # st.header("Mean for different sequences: ")
@@ -101,7 +120,7 @@ def createRulesTree(df):
         #             lift_mult_conf_dict[k] = a
         #             break
         # max_order = max(order_mean_dict_conf, key=order_mean_dict_conf.get)
-        st.header("Mean for different sequences: ")
+        st.subheader("Mean for different sequences: ")
         # for k in order_mean_dict_cf.keys():
         #     a = float(order_mean_dict_cf[k])
         #     st.text(str(k) + "=> " + "; CF: "+ str(round(float(order_mean_dict_cf[k]),2)))
@@ -116,15 +135,18 @@ def createRulesTree(df):
         # st.text("Order with highest score according to lift * conf is: " + "\n \t" + max_order)
         if metric == "Certainty Factor":
             asc_dict =  dict(sorted(order_mean_dict_cf.items(), key=lambda item: item[1])) #sorting by value
+            st.write("**Sequences in ascending order of mean(CF)**")
         elif metric == "Confidence":
             asc_dict =  dict(sorted(order_mean_dict_conf.items(), key=lambda item: item[1]))#sorting by value 
+            st.write("**Sequences in ascending order of mean(Confidence)**")
         elif metric == "Lift":
-            asc_dict =  dict(sorted(order_mean_dict_conf.items(), key=lambda item: item[1]))#sorting by value
-        st.subheader("Sequences in ascending order of mean(CF)")
+            asc_dict =  dict(sorted(order_mean_dict_lift.items(), key=lambda item: item[1]))#sorting by value
+        
+        
         st.write(asc_dict)
         count = 1
         for k,v,in asc_dict.items():
-            st.write(str(count) + ". " + str(k) + ":" +str(v))
+            # st.write(str(count) + ". " + str(k) + ":" +str(v))
             count+=1
         num_attr = 3
         for key, value in asc_dict.items():
@@ -137,14 +159,20 @@ def createRulesTree(df):
                 LHS1 = elems1[0]
                 RHS1 = elems1[1]
                 CL1 = value1
+                
+                
                 if LHS1 == RHS and value1>=value and LHS!=RHS1:
-                    st.header("Order that satisfy Ascendingness: ")
-                    st.write("Order that satisfy Ascendingness: " + LHS+"->"+RHS+"->"+RHS1)
+                    # st.header("Order that satisfy Ascendingness: ")
+                    if count_write == 0:
+                        st.write("**Order that satisfy Ascendingness:** ")
+                    st.write(LHS+"->"+RHS+"->"+RHS1)
+                    count_write +=1
 
 def run_Apriori(data_file):
     list_of_files = [f for f in os.listdir(data_folder)]
-    data_file = st.sidebar.selectbox("Select source data", sorted(list_of_files))
-
+    data_file = st.sidebar.selectbox("Select source data", sorted(list_of_files), key="file_key")
+    metric_list = ["Certainty Factor","Confidence", "Lift"]
+    metric = st.sidebar.selectbox("Select a metric", metric_list, key="metric_key")
     support_threshold = [i for i in range(0, 101, 1)]
     sup = st.sidebar.select_slider("Min Support", options = support_threshold)
     sup = sup/100
@@ -155,6 +183,8 @@ def run_Apriori(data_file):
 
     data_file = data_folder + "/" + data_file
     df = pd.read_csv(data_file, dtype=str)
+    print(data_file)
+    # st.write("Data File being processed:", data_file)
     transactions = []
     for sublist in df.values.tolist():
         clean_sublist = [item for item in sublist if item is not np.nan]
@@ -162,7 +192,7 @@ def run_Apriori(data_file):
     te = TransactionEncoder()
     te_array = te.fit(transactions).transform(transactions)
     df = pd.DataFrame(te_array, columns=te.columns_)
-    st.write("Data File: ", data_file)
+    # st.write("Data File: ", data_file)
     frequent_itemsets_fp=fpgrowth(df, min_support=sup, use_colnames=True)
     rules_fp = association_rules(frequent_itemsets_fp, metric="confidence", min_threshold=conf)
 
@@ -204,7 +234,7 @@ def run_Apriori(data_file):
     df_rules["RHS"] = df_rules["RHS"].str.replace("'", "").astype(str)
     
     print(df_rules.head())  
-    createRulesTree(df_rules)
+    createRulesTree(df_rules, metric)
 def main(args):
     print("Datafile: ", data_file)
     run_Apriori(data_file)

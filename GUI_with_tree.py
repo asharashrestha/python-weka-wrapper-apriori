@@ -99,8 +99,10 @@ def run_FP_Growth(data_file):
             cf = round(cf,2)
         else:
             cf = 0
-        df.at[index,'cf']= cf
-    print(df)
+        df_rules.at[index,'CF']= cf
+    df_rules = df_rules.drop('rhs_sup', 1)
+
+    # df_rules.drop(['rhs_sup'], axis=1)
     return df_rules
 
 def sort_attributes(df_rules):  
@@ -125,7 +127,7 @@ for attr in list(df):
 df_rules = run_FP_Growth(data_file)
 
 df_rules = sort_attributes(df_rules)
-print(df_rules.to_csv("FP_Growth_rules.csv"))
+# print(df_rules.to_csv("FP_Growth_rules.csv"))
 
 symptoms=list(np.unique(df[['Symptom']])) 
 diagnosis=list(np.unique(df[['Diagnosis']])) 
@@ -141,7 +143,7 @@ if(len(df_rules)!=0):
     selected_seq = st.sidebar.selectbox("Select sequence: ", ["Symptom->Diagnosis->Procedure", "Symptom->Procedure->Diagnosis"])
     
     selected_symptom = st.sidebar.selectbox("Select Symptom: ", symptoms)
-    
+    print(df_rules.head())
     if selected_symptom is not None:
         df_2 = df_rules[(df_rules['LHS'] == selected_symptom)]
         df_2 = df_2[df_2.apply(lambda r: r.str.contains('Diagnosis', case=False).any(), axis=1)] 
@@ -155,7 +157,7 @@ if(len(df_rules)!=0):
         if selected_diagnosis is not None:
             tree.create_node(selected_symptom + "->" + selected_diagnosis, "root")  
             # st.text_area("Rule: ", tree, height=10)
-            st.write("Rule:")
+            st.write("**Rule Block:**")
             st.text(tree)
             df_3 = df_rules[(df_rules['LHS'] == selected_diagnosis + ", " + selected_symptom)]
             df_3 = df_3[df_3.apply(lambda r: r.str.contains('Procedure', case=False).any(), axis=1)] 
@@ -169,7 +171,7 @@ if(len(df_rules)!=0):
             if selected_procedure is not None:
                 rhs = selected_procedure
                 tree.create_node(lhs + "->" + rhs, "name_1", parent="root")
-                st.write("Rule:")
+                st.write("**Rule Block:**")
                 st.text(tree)
                 # st.text_area("Rule: ", tree, height=1)
                 df_4 = df_rules[(df_rules['LHS'] == selected_diagnosis  + ", " + selected_procedure + ", " + selected_symptom)]
